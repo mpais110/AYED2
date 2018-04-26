@@ -106,6 +106,8 @@ public class ISistemaTest {
 		res = sis.todasPalabras();
 		assertEquals(Resultado.OK, res.resultado);
 		assertEquals("aaa;3|bbb;1|ccc;4|ddd;1|eee;6|fff;5|ggg;2", res.valorString);
+                System.out.println("Resultado esperado: aaa;3|bbb;1|ccc;4|ddd;1|eee;6|fff;5|ggg;2");
+                System.out.println("Resultado obtenido: " + res.valorString);
 		
 	}
 

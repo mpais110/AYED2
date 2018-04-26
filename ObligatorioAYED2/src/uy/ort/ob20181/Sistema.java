@@ -94,6 +94,19 @@ public class Sistema implements ISistema {
             
             //Paso a minusculas y separo
             texto = texto.toLowerCase();
+            texto = texto.replaceAll("\\.", " ");
+            texto = texto.replaceAll("\\,", " ");
+            texto = texto.replaceAll("\\:", " ");
+            texto = texto.replaceAll("\\)", " ");
+            texto = texto.replaceAll("\\(", " ");
+            texto = texto.replaceAll("\\!", " ");
+            texto = texto.replaceAll("\\¡", " ");
+            texto = texto.replaceAll("\\?", " ");
+            texto = texto.replaceAll("\\¿", " ");
+            texto = texto.replaceAll("\\�", " ");
+            
+            
+            
             String[] palab = texto.split(" "); 
             
             for(int i=0; i < palab.length; i++)
@@ -107,7 +120,7 @@ public class Sistema implements ISistema {
                 else
                 {   
                     //Inserto en arbol la palabra nueva
-                    Palabra nueva = new Palabra(palab[i],0);
+                    Palabra nueva = new Palabra(palab[i],1);
                     palabras.insertarElemento(nueva, palabras.getRaiz()); 
                 }
             }
