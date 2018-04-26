@@ -92,14 +92,9 @@ public class Sistema implements ISistema {
         {
             //Grabo palabras en arbol        
             
-            //Paso a minusculas y separo
+            //Paso a minusculas y separo en palabras
             texto = texto.toLowerCase();
-            
-            texto = texto.replaceAll("\\.", " ").replaceAll("\\,", " ").replaceAll("\\:", " ").replaceAll("\\)", " ").replaceAll("\\�", " ");
-            texto = texto.replaceAll("\\(", " ").replaceAll("\\!", " ").replaceAll("\\¡", " ").replaceAll("\\?", " ").replaceAll("\\¿", " ");
-
-
-            String[] palab = texto.split(" "); 
+            String[] palab = texto.split("\\b[.:,¡!�?¿()\\s]+");
             
             for(int i=0; i < palab.length; i++)
             {
