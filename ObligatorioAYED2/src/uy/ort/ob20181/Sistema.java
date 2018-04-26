@@ -94,19 +94,11 @@ public class Sistema implements ISistema {
             
             //Paso a minusculas y separo
             texto = texto.toLowerCase();
-            texto = texto.replaceAll("\\.", " ");
-            texto = texto.replaceAll("\\,", " ");
-            texto = texto.replaceAll("\\:", " ");
-            texto = texto.replaceAll("\\)", " ");
-            texto = texto.replaceAll("\\(", " ");
-            texto = texto.replaceAll("\\!", " ");
-            texto = texto.replaceAll("\\¡", " ");
-            texto = texto.replaceAll("\\?", " ");
-            texto = texto.replaceAll("\\¿", " ");
-            texto = texto.replaceAll("\\�", " ");
             
-            
-            
+            texto = texto.replaceAll("\\.", " ").replaceAll("\\,", " ").replaceAll("\\:", " ").replaceAll("\\)", " ").replaceAll("\\�", " ");
+            texto = texto.replaceAll("\\(", " ").replaceAll("\\!", " ").replaceAll("\\¡", " ").replaceAll("\\?", " ").replaceAll("\\¿", " ");
+
+
             String[] palab = texto.split(" "); 
             
             for(int i=0; i < palab.length; i++)
