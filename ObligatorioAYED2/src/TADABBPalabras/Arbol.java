@@ -79,11 +79,11 @@ public class Arbol<T> {
 
     
 
-    public Nodo obtenerDato(Nodo<T> nodo, T dato) {
+    public T obtenerDato(Nodo<T> nodo, T dato) {
         if (nodo == null)
-                return nodo;
-        else if (dato == nodo.getDato())
-                return nodo;
+                return null;
+        else if (dato.equals(nodo.getDato()))
+                return nodo.getDato();
         else if (comp.compare(dato,nodo.getDato()) < 0)
                 return obtenerDato(nodo.getIzq(), dato);
         else

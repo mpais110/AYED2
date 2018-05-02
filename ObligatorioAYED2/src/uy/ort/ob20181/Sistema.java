@@ -9,8 +9,8 @@ import uy.ort.ob20181.Retorno.Resultado;
 
 public class Sistema implements ISistema {
     
-    private Arbol palabras;
-    private Arbol repeticiones;
+    private Arbol<Palabra> palabras;
+    private Arbol<Palabra> repeticiones;
 
     
     public Arbol getPalabras() {
@@ -46,8 +46,8 @@ public class Sistema implements ISistema {
         else
         {
             //Arbol de palabras
-            Arbol<Palabra> palabras = new Arbol<Palabra>(new PalabraComparatorPalabra());
-            Arbol<Palabra> repeticiones = new Arbol<Palabra>(new PalabraComparatorCantRep());
+            this.palabras = new Arbol<Palabra>(new PalabraComparatorPalabra());
+            this.repeticiones = new Arbol<Palabra>(new PalabraComparatorCantRep());
 
             ret.resultado = Resultado.OK;
             ret.valorString = "OK";
@@ -107,22 +107,22 @@ public class Sistema implements ISistema {
             for(int i=0; i < palab.length; i++)
             {
                 //Busco si existe palabra en el arbol de palabras y si está le sumo 1 al contador
-                Nodo nodo = palabras.obtenerPalabra(palab[i], palabras.getRaiz());
-                if (nodo != null)
+                Palabra palabr = new Palabra(palab[i],1);
+                Palabra pal = palabras.obtenerDato(palabras.getRaiz(), palabr);
+                
+                if (pal != null)
                 {
-                    Palabra pal = (Palabra) nodo.getDato();
                     pal.setCantidad(pal.getCantidad() + 1);
                     
                     //Elimino el nodo en el arbol de repeticiones y lo vuelvo a insertar
-                    repeticiones.borrar(pal.getPalabra());
-                    repeticiones.insertar(pal.getPalabra());
+                    repeticiones.borrar(pal);
+                    repeticiones.insertar(pal);
                 }
                 else
                 {   
                     //Inserto en ambos arboles la palabra nueva
-                    Palabra nueva = new Palabra(palab[i],1);
-                    palabras.insertar(nueva); 
-                    repeticiones.insertar(nueva);
+                    palabras.insertar(palabr); 
+                    repeticiones.insertar(palabr);
                     
                 }
             }
@@ -180,10 +180,11 @@ public class Sistema implements ISistema {
         Retorno ret = new Retorno();
 
         //Busco la palabra en el arbol
-        Nodo nodo = palabras.obtenerPalabra(palabra, palabras.getRaiz());
-        if (nodo != null)
+        Palabra palabr = new Palabra(palabra,1);
+        Palabra pal = palabras.obtenerDato(palabras.getRaiz(), palabr);
+        
+        if (pal != null)
         {
-            Palabra pal = (Palabra) nodo.getDato();
             //Retorno la cantidad de repeticiones
             ret.valorEntero = pal.getCantidad();
             ret.resultado = Resultado.OK;
