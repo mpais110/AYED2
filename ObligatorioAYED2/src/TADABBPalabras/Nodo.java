@@ -2,74 +2,71 @@ package TADABBPalabras;
 
 import Dominio.Palabra;
 
-public class Nodo {
+public class Nodo<T> {
     
     //Atributos
-    private Palabra dato;
-    private Nodo der ;
-    private Nodo izq ;
+    private T dato;
+    private Nodo<T> der ;
+    private Nodo<T> izq ;
 
     
     //Constructores
-    public Nodo(Palabra p){
-        dato = p;
-        izq = null;
-        der = null;
-     }
-
-    public Nodo(Palabra p, Nodo i, Nodo d){
-        dato = p;
-        izq = i;
-        der = d;
-     }
 
     public Nodo() {
         dato = null;
         izq = null;
         der = null;
     }
+    
+    
+    public Nodo(T dato) {
+            this.dato = dato;
+    }
+
+    public Nodo(T dato, Nodo<T> izq, Nodo<T> der) {
+        this.dato = dato;
+        this.izq = izq;
+        this.der = der;
+    }
 
     
-    
-    
-    //Dato
-    public Palabra getDato(){
-        return dato;
+    public T getDato() {
+            return dato;
     }
-    
-    
-    void setDato(Palabra p){
-        dato = p;
+
+    public void setDato(T dato) {
+            this.dato = dato;
     }
-    
-    //Derecho
-    public Nodo getDer(){
-        return der;
+
+    public Nodo<T> getIzq() {
+            return izq;
     }
-    
-    
-    void setDer(Nodo d){
-       der = d;
+
+    public void setIzq(Nodo<T> izq) {
+            this.izq = izq;
     }
-    
-    //Izquierdo
-    public Nodo getIzq(){
-        return izq;
+
+    public Nodo<T> getDer() {
+            return der;
     }
-    void setIzq(Nodo i){
-        izq = i;
+
+    public void setDer(Nodo<T> der) {
+            this.der = der;
     }
+
 
     
     public String mostrarNodo() {
         String ret = "";
+        
         
         if(this.izq != null)
         {
             ret += this.izq.mostrarNodo() + "|";
         }
         
-        ret += this.dato.getPalabra() + ";" + this.dato.getCantidad();
+        Palabra pal = (Palabra) this.dato;
+        ret += pal.getPalabra() + ";" + pal.getCantidad();
         
         if(this.der != null)
         {
@@ -80,6 +77,29 @@ public class Nodo {
     }
     
     
+    
+    
+    
+        public String mostrarNodoDesc(int n) {
+        String ret = "";
+        
+        
+        if(this.der != null)
+        {
+            ret += this.der.mostrarNodoDesc(n) + "|";
+        }
+        
+        Palabra pal = (Palabra) this.dato;
+        n = n + 1;
+        ret += pal.getPalabra() + ";" + pal.getCantidad();
+        
+        if(this.izq != null)
+        {
+            ret += "|" + this.izq.mostrarNodoDesc(n); 
+        }
+        
+        return ret;
+    }
     
     
 }

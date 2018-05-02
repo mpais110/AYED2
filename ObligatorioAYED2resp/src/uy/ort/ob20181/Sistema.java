@@ -1,8 +1,6 @@
 package uy.ort.ob20181;
 
 import Dominio.Palabra;
-import Dominio.PalabraComparatorCantRep;
-import Dominio.PalabraComparatorPalabra;
 import TADABBPalabras.Arbol;
 import TADABBPalabras.Nodo;
 import uy.ort.ob20181.Retorno.Resultado;
@@ -10,7 +8,6 @@ import uy.ort.ob20181.Retorno.Resultado;
 public class Sistema implements ISistema {
     
     private Arbol palabras;
-    private Arbol repeticiones;
 
     
     public Arbol getPalabras() {
@@ -19,14 +16,6 @@ public class Sistema implements ISistema {
 
     public void setPalabras(Arbol palabras) {
         this.palabras = palabras;
-    }
-    
-    public Arbol getRepeticiones() {
-        return repeticiones;
-    }
-
-    public void setRepeticiones(Arbol repeticiones) {
-        this.repeticiones = repeticiones;
     }
  
 
@@ -37,6 +26,9 @@ public class Sistema implements ISistema {
 
         Retorno ret = new Retorno();
 
+        ret.resultado = Resultado.NO_IMPLEMENTADA;
+        ret.valorString = "NO_IMPLEMENTADA";
+
         //Error 1 si maxPalabras es menor o igual a 0.
         if (maxPalabras <= 0)
         {
@@ -46,8 +38,8 @@ public class Sistema implements ISistema {
         else
         {
             //Arbol de palabras
-            Arbol<Palabra> palabras = new Arbol<Palabra>(new PalabraComparatorPalabra());
-            Arbol<Palabra> repeticiones = new Arbol<Palabra>(new PalabraComparatorCantRep());
+            this.palabras = new Arbol();
+
 
             ret.resultado = Resultado.OK;
             ret.valorString = "OK";
@@ -69,13 +61,11 @@ public class Sistema implements ISistema {
         if (!palabras.esArbolVacio())
             palabras = null;
         
-        if (!repeticiones.esArbolVacio())
-            repeticiones = null;
-        
         
         //Indico que quiero que pase el Garbage Collector
         System.gc();
         
+    
         ret.resultado = Resultado.OK;
         ret.valorString = "OK";
         
@@ -90,6 +80,8 @@ public class Sistema implements ISistema {
     public Retorno analizarTexto(String texto) {
         Retorno ret = new Retorno();
 
+
+        
         //Error 1 si el texto es vacío
         if(texto.equals(""))
         {
@@ -98,7 +90,7 @@ public class Sistema implements ISistema {
         }
         else
         {
-            //Grabo palabras en arboles        
+            //Grabo palabras en arbol        
             
             //Paso a minusculas y separo en palabras
             texto = texto.toLowerCase();
@@ -106,24 +98,17 @@ public class Sistema implements ISistema {
             
             for(int i=0; i < palab.length; i++)
             {
-                //Busco si existe palabra en el arbol de palabras y si está le sumo 1 al contador
+                //Busco si existe palabra y si está le sumo 1 al contador
                 Nodo nodo = palabras.obtenerPalabra(palab[i], palabras.getRaiz());
                 if (nodo != null)
                 {
-                    Palabra pal = (Palabra) nodo.getDato();
-                    pal.setCantidad(pal.getCantidad() + 1);
-                    
-                    //Elimino el nodo en el arbol de repeticiones y lo vuelvo a insertar
-                    repeticiones.borrar(pal.getPalabra());
-                    repeticiones.insertar(pal.getPalabra());
+                    nodo.getDato().setCantidad(nodo.getDato().getCantidad() + 1);
                 }
                 else
                 {   
-                    //Inserto en ambos arboles la palabra nueva
+                    //Inserto en arbol la palabra nueva
                     Palabra nueva = new Palabra(palab[i],1);
-                    palabras.insertar(nueva); 
-                    repeticiones.insertar(nueva);
-                    
+                    palabras.insertarElemento(nueva, palabras.getRaiz()); 
                 }
             }
                         
@@ -133,8 +118,6 @@ public class Sistema implements ISistema {
 
         return ret;   
     }
-
-   
 
     
     //PRE CONDICIONES: Se recibe un valor entero.
@@ -162,8 +145,7 @@ public class Sistema implements ISistema {
             {
                 //Traigo las "n" palabras más usadas
 
-                ret.valorString = this.repeticiones.listarDescendentePorCant(n);
-
+                
                 ret.resultado = Resultado.OK;
                 ret.valorString = "OK";         
             }
@@ -183,9 +165,8 @@ public class Sistema implements ISistema {
         Nodo nodo = palabras.obtenerPalabra(palabra, palabras.getRaiz());
         if (nodo != null)
         {
-            Palabra pal = (Palabra) nodo.getDato();
             //Retorno la cantidad de repeticiones
-            ret.valorEntero = pal.getCantidad();
+            ret.valorEntero = nodo.getDato().getCantidad();
             ret.resultado = Resultado.OK;
             ret.valorString = "OK";
         }
