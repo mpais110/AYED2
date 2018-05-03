@@ -76,7 +76,7 @@ public class Arbol<T> {
             else
                     return perteneceRec(nodo.getDer(), dato);
     }
-
+ 
     
 
     public T obtenerDato(Nodo<T> nodo, T dato) {
@@ -97,7 +97,7 @@ public class Arbol<T> {
     public int cantNodos(Nodo<T> nodo) 
     {
 	int cont = 0;
-	if(raiz != null)
+	if(nodo != null)
         {
             cont += cantNodos(nodo.getIzq()); 	//cuenta subarbol izquierdo
             cont++; 							// contabilizar el nodo visitado

@@ -57,7 +57,10 @@ public class ISistemaTest {
 		
 		texto = "hola hola.hola,hola:hola(hola)hola¿hola!hola�hola?hola";			
 		sis.analizarTexto(texto);
-		assertEquals(Resultado.ERROR_2, sis.rankingPalabras(2));
+                res = sis.todasPalabras();
+                System.out.println("Resultado obtenido: " + res.valorString);
+                res = sis.rankingPalabras(2);
+		assertEquals(Resultado.ERROR_2, res.resultado);
 		res = sis.rankingPalabras(1);
 		assertEquals(Resultado.OK, res.resultado);
 		assertTrue(res.valorString.contains("hola;11"));

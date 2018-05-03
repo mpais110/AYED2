@@ -145,7 +145,7 @@ public class Sistema implements ISistema {
         Retorno ret = new Retorno();
 
         //Error 1 si "n" <= 0
-        if(n<=0)
+        if(n <= 0)
         {
             ret.resultado = Resultado.ERROR_1;
             ret.valorString = "ERROR_1"; 
@@ -153,7 +153,8 @@ public class Sistema implements ISistema {
         else
         {
             //Error 2 si hay menos de "n"·palabras
-            if(palabras.cantNodos(palabras.getRaiz()) < n)
+
+            if(repeticiones.cantNodos(repeticiones.getRaiz()) < n)
             {
                 ret.resultado = Resultado.ERROR_2;
                 ret.valorString = "ERROR_2";
