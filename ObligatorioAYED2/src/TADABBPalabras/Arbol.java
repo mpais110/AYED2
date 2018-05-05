@@ -6,7 +6,6 @@ import java.util.Comparator;
 
 public class Arbol<T> {
     
-    
     private Nodo<T> raiz;
     private Comparator<T> comp;	
 
@@ -25,8 +24,6 @@ public class Arbol<T> {
     public void setComp(Comparator<T> comp) {
         this.comp = comp;
     }
-    
-
     
     public Arbol(Comparator<T> comp) {
             this.comp = comp;
@@ -57,9 +54,7 @@ public class Arbol<T> {
                     else
                             esta = perteneceABRec(nodo.getDer(), dato);
                     return esta;
-
             }
-
     }
 
     private boolean pertenece(T dato) {
@@ -76,8 +71,6 @@ public class Arbol<T> {
             else
                     return perteneceRec(nodo.getDer(), dato);
     }
- 
-    
 
     public T obtenerDato(Nodo<T> nodo, T dato) {
         if (nodo == null)
@@ -89,10 +82,6 @@ public class Arbol<T> {
         else
                 return obtenerDato(nodo.getDer(), dato);
     }
-    
-    
-    
-    
     
     public int cantNodos(Nodo<T> nodo) 
     {
@@ -106,8 +95,6 @@ public class Arbol<T> {
 	}
         return cont;
     }
-    
-    
     
     public void insertar(T dato) {
             if (raiz == null)
@@ -130,7 +117,6 @@ public class Arbol<T> {
                             else
                                     insertarRec(dato, nodo.getDer());
                     }
-
     }
 
     public void listarAscendente() {
@@ -144,10 +130,6 @@ public class Arbol<T> {
                     listarAscRec(nodo.getDer());
             }
     }
-
-
-
-    
     
     public String listarDescendentePorCant(int n) 
     {        
@@ -158,10 +140,7 @@ public class Arbol<T> {
             ret = this.raiz.mostrarNodoDesc(n);
         }  
         return ret;
-        
     }
-    
-    
     
     public String InOrderlistarPalabras() 
     {
@@ -174,13 +153,10 @@ public class Arbol<T> {
         return ret;
     }
     
-    
-    
     public void listarDescendente() {
             listarDescRec(raiz);
     }
    
-    
     private void listarDescRec(Nodo<T> nodo) {
             if (nodo != null) {
                     listarDescRec(nodo.getDer());
@@ -189,8 +165,6 @@ public class Arbol<T> {
             }
     }
     
-    
-
     // Pre: !esVacio()
     public T borrarMinimo() {
             // if(raiz != null){
@@ -212,8 +186,6 @@ public class Arbol<T> {
                     return borrarMinRec(nodo.getIzq());
     }
     
-    
-    
     public Nodo<T> obtenerPalabra(String palab, Nodo nodo) {
         if(nodo == null) {
             return nodo;
@@ -229,9 +201,6 @@ public class Arbol<T> {
                           return obtenerPalabra(palab, nodo.getDer());
         }
     }
-
-    
-
 
     // Pre: pertenece(dato)
     public void borrar(T dato) {
@@ -299,7 +268,4 @@ public class Arbol<T> {
                             borrarRec(nodo.getDer(), dato);
             }
     }    
-    
-     
-       
 }

@@ -162,11 +162,8 @@ public class Sistema implements ISistema {
             else
             {
                 //Traigo las "n" palabras más usadas
-
-                ret.valorString = this.repeticiones.listarDescendentePorCant(n);
-
                 ret.resultado = Resultado.OK;
-                ret.valorString = "OK";         
+                ret.valorString = this.repeticiones.listarDescendentePorCant(n);
             }
         }
         return ret;   

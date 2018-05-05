@@ -54,8 +54,6 @@ public class Nodo<T> {
             this.der = der;
     }
 
-
-    
     public String mostrarNodo() {
         String ret = "";
         
@@ -76,13 +74,8 @@ public class Nodo<T> {
         return ret;
     }
     
-    
-    
-    
-    
         public String mostrarNodoDesc(int n) {
         String ret = "";
-        
         
         if(this.der != null)
         {
@@ -90,7 +83,6 @@ public class Nodo<T> {
         }
         
         Palabra pal = (Palabra) this.dato;
-        n = n + 1;
         ret += pal.getPalabra() + ";" + pal.getCantidad();
         
         if(this.izq != null)
@@ -100,6 +92,4 @@ public class Nodo<T> {
         
         return ret;
     }
-    
-    
 }
