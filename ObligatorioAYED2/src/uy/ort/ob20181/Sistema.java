@@ -13,24 +13,24 @@ public class Sistema implements ISistema {
     private Arbol<Palabra> repeticiones;
 
     
-    public Arbol getPalabras() {
+    public Arbol<Palabra> getPalabras() {
         return palabras;
     }
 
-    public void setPalabras(Arbol palabras) {
+    public void setPalabras(Arbol<Palabra> palabras) {
         this.palabras = palabras;
     }
     
-    public Arbol getRepeticiones() {
+    public Arbol<Palabra> getRepeticiones() {
         return repeticiones;
     }
 
-    public void setRepeticiones(Arbol repeticiones) {
+    public void setRepeticiones(Arbol<Palabra> repeticiones) {
         this.repeticiones = repeticiones;
     }
  
 
-    //PRE CONDICIONES: Se recibe la cantidad mÃ¡xima de palabras a almacenar (maxPalabras). "MaxPalabras" debe ser un entero.
+    //PRE CONDICIONES: Se recibe la cantidad máxima de palabras a almacenar (maxPalabras). "MaxPalabras" debe ser un entero.
     //POS CONDICIONES: Retorna ERROR_1 si maxPalabras <= 0, u OK si maxPalabras > 0 y se crearon las estructuras correspondientes.  
     @Override
     public Retorno inicializarSistema (int maxPalabras) {
@@ -60,7 +60,7 @@ public class Sistema implements ISistema {
     
     
     //PRE CONDICIONES: Se consideran creadas todas las estructuras
-    //POS CONDICIONES: Se devuelve OK, si se logrÃ³ eliminar correctamente
+    //POS CONDICIONES: Se devuelve OK, si se logró eliminar correctamente
     @Override
     public Retorno destruirSistema() {
         Retorno ret = new Retorno();
@@ -85,12 +85,12 @@ public class Sistema implements ISistema {
     
 
     //PRE CONDICIONES: Se recibe una cadena de caracteres.
-    //POS CONDICIONES: Retorna ERROR_1 si el texto es vacÃ­o, u OK si se pudo analizar el texto y grabarlo en las estructuras correspondientes.  
+    //POS CONDICIONES: Retorna ERROR_1 si el texto es vacío, u OK si se pudo analizar el texto y grabarlo en las estructuras correspondientes.  
     @Override
     public Retorno analizarTexto(String texto) {
         Retorno ret = new Retorno();
 
-        //Error 1 si el texto es vacÃ­o
+        //Error 1 si el texto es vacío
         if(texto.equals(""))
         {
             ret.resultado = Resultado.ERROR_1;
@@ -102,20 +102,20 @@ public class Sistema implements ISistema {
             
             //Paso a minusculas y separo en palabras
             texto = texto.toLowerCase();
-            String[] palab = texto.split("\\b[.:,Â¡!ï¿½?Â¿()\\s]+");
+            String[] palab = texto.split("\\b[.:,¡!?¿()\\s]+");
+
             
             for(int i=0; i < palab.length; i++)
             {
-                //Busco si existe palabra en el arbol de palabras y si estÃ¡ le sumo 1 al contador
+                //Busco si existe palabra en el arbol de palabras y si está le sumo 1 al contador
                 Palabra palabr = new Palabra(palab[i],1);
                 Palabra pal = palabras.obtenerDato(palabras.getRaiz(), palabr);
                 
                 if (pal != null)
                 {
+                	//Elimino el nodo en el arbol de repeticiones, lo actualizo y lo vuelvo a insertar
+                	repeticiones.borrar(pal);
                     pal.setCantidad(pal.getCantidad() + 1);
-                    
-                    //Elimino el nodo en el arbol de repeticiones y lo vuelvo a insertar
-                    repeticiones.borrar(pal);
                     repeticiones.insertar(pal);
                 }
                 else
@@ -138,7 +138,7 @@ public class Sistema implements ISistema {
 
     
     //PRE CONDICIONES: Se recibe un valor entero.
-    //POS CONDICIONES: Retorna ERROR_1 si "n" es menor o igual a cero, ERROR_2 si hay menos de "n" palabras diferentes en el texto, y un listado de las "n" palabras mÃ¡s usadas en otro caso.
+    //POS CONDICIONES: Retorna ERROR_1 si "n" es menor o igual a cero, ERROR_2 si hay menos de "n" palabras diferentes en el texto, y un listado de las "n" palabras más usadas en otro caso.
     @Override
     public Retorno rankingPalabras(int n) {
         
@@ -152,7 +152,7 @@ public class Sistema implements ISistema {
         }
         else
         {
-            //Error 2 si hay menos de "n"Â·palabras
+            //Error 2 si hay menos de "n" palabras
 
             if(repeticiones.cantNodos(repeticiones.getRaiz()) < n)
             {
@@ -161,9 +161,11 @@ public class Sistema implements ISistema {
             }
             else
             {
-                //Traigo las "n" palabras mÃ¡s usadas
-                ret.resultado = Resultado.OK;
+                //Traigo las "n" palabras más usadas
+
                 ret.valorString = this.repeticiones.listarDescendentePorCant(n);
+                ret.resultado = Resultado.OK;
+     
             }
         }
         return ret;   
@@ -171,7 +173,7 @@ public class Sistema implements ISistema {
 
     
     //PRE CONDICIONES: Se recibe una cadena de caracteres.
-    //POS CONDICIONES: Retorna ERROR_1 si el texto es vacÃ­o, u OK si se pudo analizar el texto y grabarlo en las estructuras correspondientes.  
+    //POS CONDICIONES: Retorna ERROR_1 si el texto es vacío, u OK si se pudo analizar el texto y grabarlo en las estructuras correspondientes.  
     @Override
     public Retorno aparicionesPalabra(String palabra) {
         
@@ -190,7 +192,7 @@ public class Sistema implements ISistema {
         }
         else
         {   
-            //Error 1 si no se encontrÃ³ la palabra.
+            //Error 1 si no se encontró la palabra.
             ret.resultado = Resultado.ERROR_1;
             ret.valorString = "ERROR_1";
         }
@@ -200,12 +202,22 @@ public class Sistema implements ISistema {
 
     
 
-    //POS CONDICIONES: Retorna un listado de todas las palabras almacenadas, o vacÃ­o si no hay palabras. 
+    //POS CONDICIONES: Retorna un listado de todas las palabras almacenadas, o vacío si no hay palabras. 
     @Override
     public Retorno todasPalabras() {
         Retorno ret = new Retorno();
 
         ret.valorString = this.palabras.InOrderlistarPalabras();
+        ret.resultado = Resultado.OK;
+
+        return ret;
+    }
+    
+    @Override
+    public Retorno todasPalabrasdelotro() {
+        Retorno ret = new Retorno();
+
+        ret.valorString = this.repeticiones.InOrderlistarPalabras();
         ret.resultado = Resultado.OK;
 
         return ret;
