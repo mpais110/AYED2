@@ -9,6 +9,7 @@ public class Arbol<T> {
     
     private Nodo<T> raiz;
     private Comparator<T> comp;	
+    private int maxNodos;
 
     public Nodo<T> getRaiz() {
         return raiz;
@@ -26,15 +27,24 @@ public class Arbol<T> {
         this.comp = comp;
     }
     
-
     
-    public Arbol(Comparator<T> comp) {
+    public int getMaxNodos() {
+		return maxNodos;
+	}
+
+	public void setMaxNodos(int maxNodos) {
+		this.maxNodos = maxNodos;
+	}
+
+	public Arbol(Comparator<T> comp, int maxNodos) {
             this.comp = comp;
+            this.maxNodos = maxNodos;
     }
 
-    public Arbol(Nodo<T> raiz, Comparator<T> comp) {
+    public Arbol(Nodo<T> raiz, Comparator<T> comp, int maxNodos) {
             this.raiz = raiz;
             this.comp = comp;
+            this.maxNodos = maxNodos;
     }
 
     public boolean esArbolVacio() {
@@ -111,13 +121,14 @@ public class Arbol<T> {
     
     public void insertar(T dato) {
             if (raiz == null)
-                    raiz = new Nodo<T>(dato);
+            			raiz = new Nodo<T>(dato);
+            
             else
                     insertarRec(dato, raiz);
     }
 
     private void insertarRec(T dato, Nodo<T> nodo) {
-            if (dato != nodo.getDato())
+            if (dato != nodo.getDato() && this.cantNodos(raiz) < maxNodos)
                     if (comp.compare(dato, nodo.getDato()) < 0) {
                             if (nodo.getIzq() == null)
                                     nodo.setIzq(new Nodo<T>(dato));
@@ -231,7 +242,7 @@ public class Arbol<T> {
     }
 
     
-
+    
 
     // Pre: pertenece(dato)
     public void borrar(T dato) {
@@ -281,8 +292,7 @@ public class Arbol<T> {
                     if (nodo.getDer().getDato() == dato) {
                             if (nodo.getDer().getIzq() == null && nodo.getDer().getDer() == null) // Caso simple
                                     nodo.setDer(null);
-                            else if (nodo.getDer().getIzq() == null || nodo.getDer().getDer() == null) { // Caso
-                                                                                                                                                    // intermedio
+                            else if (nodo.getDer().getIzq() == null || nodo.getDer().getDer() == null) { // Caso intermedio
                                     if (nodo.getDer().getIzq() == null)
                                             nodo.setDer(nodo.getDer().getDer());
                                     else
@@ -302,4 +312,6 @@ public class Arbol<T> {
     
      
        
+    
+
 }

@@ -46,8 +46,8 @@ public class Sistema implements ISistema {
         else
         {
             //Arbol de palabras
-            this.palabras = new Arbol<Palabra>(new PalabraComparatorPalabra());
-            this.repeticiones = new Arbol<Palabra>(new PalabraComparatorCantRep());
+            this.palabras = new Arbol<Palabra>(new PalabraComparatorPalabra(), maxPalabras);
+            this.repeticiones = new Arbol<Palabra>(new PalabraComparatorCantRep(), maxPalabras);
 
             ret.resultado = Resultado.OK;
             ret.valorString = "OK";
@@ -163,8 +163,9 @@ public class Sistema implements ISistema {
             {
                 //Traigo las "n" palabras más usadas
 
-                ret.valorString = this.repeticiones.listarDescendentePorCant(n);
+                ret.valorString = this.repeticiones.InOrderlistarPalabras();     //.listarDescendentePorCant(n);
                 ret.resultado = Resultado.OK;
+                ret.valorEntero = this.repeticiones.cantNodos(repeticiones.getRaiz());
      
             }
         }

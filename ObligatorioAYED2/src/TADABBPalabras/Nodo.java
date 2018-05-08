@@ -86,17 +86,15 @@ public class Nodo<T> {
         if(this.der != null && n <= i)
         {
             ret += this.der.mostrarNodoDesc(n) + "|";
-            n++;
         }
         
         Palabra pal = (Palabra) this.dato;
-        
+        n++;
         ret += pal.getPalabra() + ";" + pal.getCantidad();
         
         if(this.izq != null && n <= i)
         {
             ret += "|" + this.izq.mostrarNodoDesc(n); 
-            n++;
         }
         
         return ret;
