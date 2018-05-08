@@ -40,7 +40,7 @@ public class ISistemaTest {
 		String texto;
 		texto = "";
 		assertEquals(Resultado.ERROR_1, sis.analizarTexto(texto).resultado);
-		texto = "hola hola.hola,hola:hola(hola)hola¡hola!hola¿hola?hola";			
+		texto = "hola hola.hola,hola:hola(hola)holaï¿½hola!holaï¿½hola?hola";			
 		assertEquals(Resultado.OK, sis.analizarTexto(texto).resultado);
 		
 	}
@@ -55,22 +55,22 @@ public class ISistemaTest {
 		assertEquals(Resultado.ERROR_1, sis.rankingPalabras(-1).resultado);
 		assertEquals(Resultado.ERROR_1, sis.rankingPalabras(0).resultado);
 		
-		texto = "hola hola.hola,hola:hola(hola)hola¡hola!hola¿hola?hola";			
+		texto = "hola hola.hola,hola:hola(hola)holaï¿½hola!holaï¿½hola?hola";			
 		sis.analizarTexto(texto);
 		assertEquals(Resultado.ERROR_2, sis.rankingPalabras(2).resultado);
 		res = sis.rankingPalabras(1);
 		assertEquals(Resultado.OK, res.resultado);
-		System.out.println("Resultado obtenido: " + res.valorString);
 		assertTrue(res.valorString.contains("hola;11"));
 		
 		sis = new Sistema();
 		sis.inicializarSistema(20);
-		texto = "aaa!ccc aaa ccc.aaa,ggg:ccc!ccc(ddd)eee¡eee!eee¿eee?fff fff fff eee eee fff fff bbb ggg";			
+		texto = "aaa!ccc aaa ccc.aaa,ggg:ccc!ccc(ddd)eeeï¿½eee!eeeï¿½eee?fff fff fff eee eee fff fff bbb ggg";			
 		sis.analizarTexto(texto);
 		res = sis.rankingPalabras(5);
 		assertEquals(Resultado.OK, res.resultado);
-		System.out.println("Resultado obtenido: " + res.valorString);
-		assertEquals("eee;6|fff;5|ccc;4|aaa;3|ggg;2", res.valorString);
+		System.out.println("Resultado esperado: eee;6|fff;5|ccc;4|aaa;3|ggg;2|bbb;1|ddd;1");
+                System.out.println("Resultado obtenido: " + res.valorString);
+		assertEquals("eee;6|fff;5|ccc;4|aaa;3|ggg;2|bbb;1|ddd;1", res.valorString);
 			
 	}
 
@@ -80,7 +80,7 @@ public class ISistemaTest {
 		
 		sis.inicializarSistema(20);
 		
-		texto = "aaa!ccc aaa ccc.aaa,ggg:ccc!ccc(ddd)eee¡eee!eee¿eee?fff fff fff eee eee fff fff bbb ggg";			
+		texto = "aaa!ccc aaa ccc.aaa,ggg:ccc!ccc(ddd)eeeï¿½eee!eeeï¿½eee?fff fff fff eee eee fff fff bbb ggg";			
 		sis.analizarTexto(texto);
 		assertEquals(Resultado.ERROR_1, sis.aparicionesPalabra("hhh").resultado);
 		assertEquals(Resultado.ERROR_1, sis.aparicionesPalabra("ff").resultado);
@@ -103,7 +103,7 @@ public class ISistemaTest {
 	
 		sis.inicializarSistema(20);
 		
-		texto = "aaa!ccc aaa ccc.aaa,ggg:ccc!ccc(ddd)eee¡eee!eee¿eee?fff fff fff eee eee fff fff bbb ggg";			
+		texto = "aaa!ccc aaa ccc.aaa,ggg:ccc!ccc(ddd)eeeï¿½eee!eeeï¿½eee?fff fff fff eee eee fff fff bbb ggg";			
 		sis.analizarTexto(texto);
 		res = sis.todasPalabras();
 		assertEquals(Resultado.OK, res.resultado);
