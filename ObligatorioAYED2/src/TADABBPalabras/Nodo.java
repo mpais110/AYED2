@@ -86,10 +86,7 @@ public class Nodo<T> {
         if(this.der != null && n <= i)
         {
             ret += this.der.mostrarNodoDesc(n) + "|";
-<<<<<<< HEAD
   
-=======
->>>>>>> 8ebfc38724f7062a15122f2014dc786c28495568
         }
         
         Palabra pal = (Palabra) this.dato;
@@ -99,10 +96,7 @@ public class Nodo<T> {
         if(this.izq != null && n <= i)
         {
             ret += "|" + this.izq.mostrarNodoDesc(n); 
-<<<<<<< HEAD
       
-=======
->>>>>>> 8ebfc38724f7062a15122f2014dc786c28495568
         }
         
         return ret;

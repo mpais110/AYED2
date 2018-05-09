@@ -176,7 +176,7 @@ public class Sistema implements ISistema {
             {
                 //Traigo las "n" palabras más usadas
 
-                ret.valorString = this.repeticiones.InOrderlistarPalabras();     //.listarDescendentePorCant(n);
+                ret.valorString = this.repeticiones.listarDescendentePorCant(n);
                 ret.resultado = Resultado.OK;
                 ret.valorEntero = this.repeticiones.cantNodos(repeticiones.getRaiz());
      

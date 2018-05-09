@@ -124,23 +124,16 @@ public class Arbol<T> {
     	
             if (raiz == null)
             			raiz = new Nodo<T>(dato);
-<<<<<<< HEAD
             			
-=======
->>>>>>> 8ebfc38724f7062a15122f2014dc786c28495568
             
             else
                     ret = insertarRec(dato, raiz);
             return ret;
     }
 
-<<<<<<< HEAD
     private String insertarRec(T dato, Nodo<T> nodo) {
     	String ret = " ";
     	
-=======
-    private void insertarRec(T dato, Nodo<T> nodo) {
->>>>>>> 8ebfc38724f7062a15122f2014dc786c28495568
             if (dato != nodo.getDato() && this.cantNodos(raiz) < maxNodos)
                     if (comp.compare(dato, nodo.getDato()) < 0) {
                             if (nodo.getIzq() == null)
@@ -286,7 +279,6 @@ return ret;
 
     
     
-<<<<<<< HEAD
 
     // Pre: pertenece(dato)
     public boolean borrar(T dato) {
@@ -317,8 +309,6 @@ return ret;
             
             return ret;
     }
-=======
->>>>>>> 8ebfc38724f7062a15122f2014dc786c28495568
 
     private boolean borrarRec(Nodo<T> nodo, T dato) {
     	
@@ -514,15 +504,10 @@ return ret;
             }
     }    
     
-<<<<<<< HEAD
     
     
     
     
-=======
-     
-       
->>>>>>> 8ebfc38724f7062a15122f2014dc786c28495568
     
 
 }
