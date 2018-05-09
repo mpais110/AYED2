@@ -46,8 +46,8 @@ public class Sistema implements ISistema {
         else
         {
             //Arbol de palabras
-            this.palabras = new Arbol<Palabra>(new PalabraComparatorPalabra());
-            this.repeticiones = new Arbol<Palabra>(new PalabraComparatorCantRep());
+            this.palabras = new Arbol<Palabra>(new PalabraComparatorPalabra(), maxPalabras);
+            this.repeticiones = new Arbol<Palabra>(new PalabraComparatorCantRep(), maxPalabras);
 
             ret.resultado = Resultado.OK;
             ret.valorString = "OK";
@@ -114,15 +114,28 @@ public class Sistema implements ISistema {
                 if (pal != null)
                 {
                 	//Elimino el nodo en el arbol de repeticiones, lo actualizo y lo vuelvo a insertar
-                	repeticiones.borrar(pal);
+//                	repeticiones.borrar(pal);
+//                    pal.setCantidad(pal.getCantidad() + 1);
+//                    repeticiones.insertar(pal);
+                	
+                	if(repeticiones.borrar(pal))
+                	{System.out.println(i + ")Borro OK palabra: " + pal.getPalabra() + " Cant. Rep. " + pal.getCantidad());}
+                	else
+                		System.out.println(i + ")NO BORRÓ palabra: " + pal.getPalabra() + " Cant. Rep. " + pal.getCantidad());
+                		;
                     pal.setCantidad(pal.getCantidad() + 1);
+                    
                     repeticiones.insertar(pal);
                 }
                 else
                 {   
                     //Inserto en ambos arboles la palabra nueva
-                    palabras.insertar(palabr); 
-                    repeticiones.insertar(palabr);
+                	System.out.println(i + ")Inserta en palabras: " + palabras.insertar(palabr));
+                	System.out.println(i + ")Inserta en repeticiones: " + repeticiones.insertar(palabr));
+                	
+                	
+//                    palabras.insertar(palabr); 
+//                    repeticiones.insertar(palabr);
                     
                 }
             }
@@ -165,6 +178,7 @@ public class Sistema implements ISistema {
 
                 ret.valorString = this.repeticiones.listarDescendentePorCant(n);
                 ret.resultado = Resultado.OK;
+                ret.valorEntero = this.repeticiones.cantNodos(repeticiones.getRaiz());
      
             }
         }
