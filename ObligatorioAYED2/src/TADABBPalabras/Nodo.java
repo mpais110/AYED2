@@ -78,24 +78,23 @@ public class Nodo<T> {
     
  
     
-    public String mostrarNodoDesc(int i) {
+    public String mostrarNodoDesc(int i, int n) {
         String ret = "";
-        int n = 0;
         
         
         if(this.der != null && n <= i)
         {
-            ret += this.der.mostrarNodoDesc(n) + "|";
+            ret += this.der.mostrarNodoDesc(i,n) + "|";
   
         }
         
         Palabra pal = (Palabra) this.dato;
-        n++;
         ret += pal.getPalabra() + ";" + pal.getCantidad();
+        n++;
         
         if(this.izq != null && n <= i)
         {
-            ret += "|" + this.izq.mostrarNodoDesc(n); 
+            ret += "|" + this.izq.mostrarNodoDesc(i,n); 
       
         }
         
@@ -103,10 +102,7 @@ public class Nodo<T> {
     }
     
     
-    public String toString(){
-    	 Palabra pal = (Palabra) this.dato;
-    	 return pal.getPalabra();
-    }
+
     
     
 }

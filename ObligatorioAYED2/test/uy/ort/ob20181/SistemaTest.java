@@ -156,7 +156,7 @@ public class SistemaTest {
 		Resultado expResult = Retorno.Resultado.OK;
         Retorno result = sis.analizarTexto(texto);
         assertEquals(expResult, result.resultado);
-        result = sis.rankingPalabras(2);
+        result = sis.rankingPalabras(3);
 		System.out.println("Resultado esperado: aaa;3|ddd;2|jjjjj;2");
 		System.out.println("Resultado obtenido: " + result.valorString  + " " + result.valorEntero);
 		System.out.println("______________________________________________________________________________");

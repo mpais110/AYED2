@@ -125,7 +125,8 @@ public class Sistema implements ISistema {
                 		;
                     pal.setCantidad(pal.getCantidad() + 1);
                     
-                    repeticiones.insertar(pal);
+                    //repeticiones.insertar(pal);
+                    System.out.println(i + ")Inserta en repeticiones: " + repeticiones.insertar(pal));
                 }
                 else
                 {   
@@ -175,8 +176,26 @@ public class Sistema implements ISistema {
             else
             {
                 //Traigo las "n" palabras más usadas
+            	
+            	String textoResultado = this.repeticiones.listarDescendentePorCant(n);
+            	String[] palabritas = textoResultado.split("|");
 
-                ret.valorString = this.repeticiones.listarDescendentePorCant(n);
+                
+            	for(int i=0; i < n-1; i++)
+                {
+            		if(i <= n - 2)
+            		{
+            			System.out.println(palabritas[i]);
+            			ret.valorString += palabritas[i] + "|";
+            		}
+            		else
+            		{
+            			System.out.println(palabritas[i]);
+            			ret.valorString += palabritas[i];
+            		}
+                }
+            		
+            	//ret.valorString = this.repeticiones.listarDescendentePorCant(n);
                 ret.resultado = Resultado.OK;
                 ret.valorEntero = this.repeticiones.cantNodos(repeticiones.getRaiz());
      

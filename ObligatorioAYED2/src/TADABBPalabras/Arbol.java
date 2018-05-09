@@ -202,7 +202,7 @@ return ret;
         
         if(this.raiz != null)
         {
-            ret = this.raiz.mostrarNodoDesc(n);
+            ret = this.raiz.mostrarNodoDesc(n,0);
         }  
         return ret;
         
@@ -313,56 +313,88 @@ return ret;
     private boolean borrarRec(Nodo<T> nodo, T dato) {
     	
     	boolean ret = false;
-            if(comp.compare(dato,nodo.getDato()) < 0){
-                    if (nodo.getIzq().getDato() == dato) {
+            if(comp.compare(dato,nodo.getDato()) < 0)
+            {
+                    if (nodo.getIzq().getDato() == dato) 
+                    {
                             if (nodo.getIzq().getIzq() == null && nodo.getIzq().getDer() == null) // Caso simple
-                            { nodo.setIzq(null);
-                            ret = true;}
-                            else if (nodo.getIzq().getIzq() == null || nodo.getIzq().getDer() == null) { // Caso
+                            { 
+                            	nodo.setIzq(null);
+                            	ret = true;
+                            }
+                            else if (nodo.getIzq().getIzq() == null || nodo.getIzq().getDer() == null) 
+                            { // Caso
                                                                                                                                                     // intermedio
                                     if (nodo.getIzq().getIzq() == null)
-                                    { nodo.setIzq(nodo.getIzq().getDer());
-                                    ret = true;}
+                                    { 
+                                    	nodo.setIzq(nodo.getIzq().getDer());
+                                    	ret = true;
+                                    }
                                     else
-                                    {  nodo.setIzq(nodo.getIzq().getIzq());
-                                    ret = true;}
-                            } else { // Caso complicado
-                                    if (nodo.getIzq().getDer().getIzq() == null) {
+                                    {  
+                                    	nodo.setIzq(nodo.getIzq().getIzq());
+                                    	ret = true;
+                                    }
+                            } 
+                            else 
+                            { // Caso complicado
+                                    if (nodo.getIzq().getDer().getIzq() == null) 
+                                    {
                                             nodo.getIzq().setDato(nodo.getIzq().getDer().getDato());
                                             nodo.getIzq().setDer(nodo.getIzq().getDer().getDer());
-                                            ret = true;}
+                                            ret = true;
+                                    }
                                      else
-                                     { nodo.getIzq().setDato(borrarMinRec(nodo.getIzq().getDer())); 
-                                     ret = true;}
+                                     { 
+                                    	 nodo.getIzq().setDato(borrarMinRec(nodo.getIzq().getDer())); 
+                                    	 ret = true;
+                                    }
                             }
                     }
                     else
-                            borrarRec(nodo.getIzq(), dato);
-            } else if(comp.compare(dato,nodo.getDato()) > 0){
-                    if (nodo.getDer().getDato() == dato) {
+                        ret =    borrarRec(nodo.getIzq(), dato);
+            } 
+            else if(comp.compare(dato,nodo.getDato()) > 0)
+            {
+                    if (nodo.getDer().getDato() == dato) 
+                    {
                             if (nodo.getDer().getIzq() == null && nodo.getDer().getDer() == null) // Caso simple
-                                    {nodo.setDer(null);
-                                    ret = true;}
-                            else if (nodo.getDer().getIzq() == null || nodo.getDer().getDer() == null) { // Caso intermedio
+                                    {
+                            			nodo.setDer(null);
+                            			ret = true;
+                            		}
+                            else if (nodo.getDer().getIzq() == null || nodo.getDer().getDer() == null) 
+                            { // Caso intermedio
                                     if (nodo.getDer().getIzq() == null)
-                                            {nodo.setDer(nodo.getDer().getDer());
-                                    ret = true;}
+                                    {
+                                    	nodo.setDer(nodo.getDer().getDer());
+                                    	ret = true;
+                                    }
                                     else
-                                    {  nodo.setDer(nodo.getDer().getIzq());
-                                    ret = true;}
-                            } else { // Caso complicado
-                                    if (nodo.getDer().getDer().getIzq() == null) {
+                                    {  
+                                    	nodo.setDer(nodo.getDer().getIzq());
+                                    	ret = true;
+                                    }
+                            } 
+                            else 
+                            { // Caso complicado
+                                    if (nodo.getDer().getDer().getIzq() == null) 
+                                    {
                                             nodo.getDer().setDato(nodo.getDer().getDer().getDato());
                                             nodo.getDer().setDer(nodo.getDer().getDer().getDer());
-                                            ret = true;}
+                                            ret = true;
+                                    }
                                      else
-                                     {   nodo.getDer().setDato(borrarMinRec(nodo.getDer().getDer())); 
-                                     ret = true;}
+                                     {   
+                                    	 nodo.getDer().setDato(borrarMinRec(nodo.getDer().getDer())); 
+                                    	 ret = true;
+                                     }
                             }
                     }
-                    else
-                            borrarRec(nodo.getDer(), dato);
-            }
+             }
+             else
+            	 ret =    borrarRec(nodo.getDer(), dato);
+            
             
             return ret;
     }    
