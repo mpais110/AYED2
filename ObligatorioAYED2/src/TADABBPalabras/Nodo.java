@@ -8,6 +8,7 @@ public class Nodo<T> {
     private T dato;
     private Nodo<T> der ;
     private Nodo<T> izq ;
+    
 
     
     //Constructores
@@ -77,24 +78,24 @@ public class Nodo<T> {
     }
     
  
-    
-    public String mostrarNodoDesc(int i, int n) {
+
+
+	public String mostrarNodoDesc() {
         String ret = "";
-        
-        
-        if(this.der != null && n <= i)
+            
+        if(this.der != null)
         {
-            ret += this.der.mostrarNodoDesc(i,n) + "|";
+            ret += this.der.mostrarNodoDesc() + "|";
   
         }
         
         Palabra pal = (Palabra) this.dato;
         ret += pal.getPalabra() + ";" + pal.getCantidad();
-        n++;
+
         
-        if(this.izq != null && n <= i)
+        if(this.izq != null)
         {
-            ret += "|" + this.izq.mostrarNodoDesc(i,n); 
+            ret += "|" + this.izq.mostrarNodoDesc(); 
       
         }
         

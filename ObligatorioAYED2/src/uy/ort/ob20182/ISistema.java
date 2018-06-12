@@ -1,4 +1,4 @@
-package uy.ort.ob20181;
+package uy.ort.ob20182;
 
 
 // Interfaz del sistema
@@ -11,12 +11,10 @@ public interface ISistema {
 	
 	Retorno analizarTexto(String texto);
 	
-	Retorno rankingPalabras(int n);
-	
 	Retorno aparicionesPalabra(String palabra);
-	
-	Retorno todasPalabras();
-	
 
+	Retorno predecirPalabra(String palabra);
+
+	Retorno repetirFrase(String palabraIni, String palabraFin);
 	
 }

@@ -102,7 +102,7 @@ public class Sistema implements ISistema {
             
             //Paso a minusculas y separo en palabras
             texto = texto.toLowerCase();
-            String[] palab = texto.split("\\b[.:,¡!?¿()\\s]+");
+            String[] palab = texto.split("\\b[.:,¡!?¿() \\s]+");
 
             
             for(int i=0; i < palab.length; i++)
@@ -114,29 +114,29 @@ public class Sistema implements ISistema {
                 if (pal != null)
                 {
                 	//Elimino el nodo en el arbol de repeticiones, lo actualizo y lo vuelvo a insertar
-//                	repeticiones.borrar(pal);
-//                    pal.setCantidad(pal.getCantidad() + 1);
-//                    repeticiones.insertar(pal);
-                	
-                	if(repeticiones.borrar(pal))
-                	{System.out.println(i + ")Borro OK palabra: " + pal.getPalabra() + " Cant. Rep. " + pal.getCantidad());}
-                	else
-                		System.out.println(i + ")NO BORRÓ palabra: " + pal.getPalabra() + " Cant. Rep. " + pal.getCantidad());
-                		;
+                	repeticiones.borrar(pal);
                     pal.setCantidad(pal.getCantidad() + 1);
-                    
-                    //repeticiones.insertar(pal);
-                    System.out.println(i + ")Inserta en repeticiones: " + repeticiones.insertar(pal));
+                    repeticiones.insertar(pal);
+                	
+//                	if(repeticiones.borrar(pal))
+//                	{System.out.println(i + ")Borro OK palabra: " + pal.getPalabra() + " Cant. Rep. " + pal.getCantidad());}
+//                	else
+//                		System.out.println(i + ")NO BORRÓ palabra: " + pal.getPalabra() + " Cant. Rep. " + pal.getCantidad());
+//                		;
+//                    pal.setCantidad(pal.getCantidad() + 1);
+//                    
+//                    //repeticiones.insertar(pal);
+//                    System.out.println(i + ")Inserta en repeticiones: " + repeticiones.insertar(pal));
                 }
                 else
                 {   
                     //Inserto en ambos arboles la palabra nueva
-                	System.out.println(i + ")Inserta en palabras: " + palabras.insertar(palabr));
-                	System.out.println(i + ")Inserta en repeticiones: " + repeticiones.insertar(palabr));
+//                	System.out.println(i + ")Inserta en palabras: " + palabras.insertar(palabr));
+//                	System.out.println(i + ")Inserta en repeticiones: " + repeticiones.insertar(palabr));
                 	
                 	
-//                    palabras.insertar(palabr); 
-//                    repeticiones.insertar(palabr);
+                    palabras.insertar(palabr); 
+                    repeticiones.insertar(palabr);
                     
                 }
             }
@@ -176,26 +176,21 @@ public class Sistema implements ISistema {
             else
             {
                 //Traigo las "n" palabras más usadas
-            	
-            	String textoResultado = this.repeticiones.listarDescendentePorCant(n);
-            	String[] palabritas = textoResultado.split("|");
+         		
+            	String todasLasPal = this.repeticiones.listarDescendentePorCant();
+                String[] palabritas = todasLasPal.split("\\b[|\\s]+");
 
-                
-            	for(int i=0; i < n-1; i++)
+                String salida = "";
+                for(int i=0; i < n; i++)
                 {
-            		if(i <= n - 2)
-            		{
-            			System.out.println(palabritas[i]);
-            			ret.valorString += palabritas[i] + "|";
-            		}
-            		else
-            		{
-            			System.out.println(palabritas[i]);
-            			ret.valorString += palabritas[i];
-            		}
+                	if(i <= (n-2))
+                		salida = salida + palabritas[i] + "|";
+                	else
+                		salida = salida + palabritas[i];
                 }
-            		
-            	//ret.valorString = this.repeticiones.listarDescendentePorCant(n);
+            	
+ //           	ret.valorString = this.repeticiones.listarDescendentePorCant();
+                ret.valorString = salida;
                 ret.resultado = Resultado.OK;
                 ret.valorEntero = this.repeticiones.cantNodos(repeticiones.getRaiz());
      
@@ -246,14 +241,5 @@ public class Sistema implements ISistema {
         return ret;
     }
     
-    @Override
-    public Retorno todasPalabrasdelotro() {
-        Retorno ret = new Retorno();
-
-        ret.valorString = this.repeticiones.InOrderlistarPalabras();
-        ret.resultado = Resultado.OK;
-
-        return ret;
-    }
 	
 }

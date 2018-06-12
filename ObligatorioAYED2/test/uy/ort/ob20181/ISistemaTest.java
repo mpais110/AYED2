@@ -60,7 +60,6 @@ public class ISistemaTest {
 		assertEquals(Resultado.ERROR_2, sis.rankingPalabras(2).resultado);
 		res = sis.rankingPalabras(1);
 		assertEquals(Resultado.OK, res.resultado);
-		System.out.println("Resultado obtenido: " + res.valorString);
 		assertTrue(res.valorString.contains("hola;11"));
 		
 		sis = new Sistema();
@@ -69,7 +68,6 @@ public class ISistemaTest {
 		sis.analizarTexto(texto);
 		res = sis.rankingPalabras(5);
 		assertEquals(Resultado.OK, res.resultado);
-		System.out.println("Resultado obtenido: " + res.valorString);
 		assertEquals("eee;6|fff;5|ccc;4|aaa;3|ggg;2", res.valorString);
 			
 	}
