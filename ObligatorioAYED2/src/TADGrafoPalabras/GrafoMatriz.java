@@ -1,6 +1,6 @@
 package TADGrafoPalabras;
 
-import TADGrafoPalabras.Vertice;
+import Dominio.Palabra;
 import java.util.Arrays;
         
 public class GrafoMatriz 
@@ -66,7 +66,7 @@ public class GrafoMatriz
     }
 
     
-    public void agregarVertice(int v,  Object elem) {
+    public void agregarVertice(int v,  Palabra elem) {
 
         //CrearVértice
         Vertice nuevo = new Vertice(true, elem);
@@ -119,18 +119,18 @@ public class GrafoMatriz
     }
 
     
-    public boolean existePunto(double coordX, double coordY) {
+    public boolean existePalabra(String pal) {
         
         boolean encontro = false;
         int i = 1;
         
-        //Busco en vector de puntos si ya existe uno con las coordenadas recibidas
+        //Busco en vector de palabras si ya existe una igual
         while (!encontro && i <= this.getCantNodos())
         {
-//            if (this.nodosUsados[i] != null && this.nodosUsados[i].getCoordX() == coordX && this.nodosUsados[i].getCoordY() == coordY)
-//                encontro = true;
-//            else
-//                i++;         
+            if (this.nodosUsados[i] != null && this.nodosUsados[i].getPalabra().getPalabra().equals(pal))
+                encontro = true;
+            else
+                i++;         
         }
         
         return encontro;                    
@@ -139,7 +139,7 @@ public class GrafoMatriz
     
     
 
-    public int indiceDePunto(double coordX, double coordY) {
+    public int indiceDePalabra(String pal) {
         
         int indice = 0;
         boolean encontro = false;
@@ -148,46 +148,47 @@ public class GrafoMatriz
         //Busco en vector de puntos si ya existe uno con las coordenadas recibidas
         while (!encontro && i <= this.getCantNodos())
         {
-//            if (this.nodosUsados[i] != null && this.nodosUsados[i].getCoordX() == coordX && this.nodosUsados[i].getCoordY() == coordY)
-//            {
-//                encontro = true;
-//                indice = i;             
-//            }
-//            else
-//                i++;         
+            if (this.nodosUsados[i] != null && this.nodosUsados[i].getPalabra().getPalabra().equals(pal))
+            {
+                encontro = true;
+                indice = i;             
+            }
+            else
+                i++;         
         }    
         return indice;                    
     }
     
     
-    public boolean existeTramo(double coordXI, double coordYI, double coordXF, double coordYF) {
-        boolean ret = false;
-        
-        int verticeIni = this.indiceDePunto(coordXI, coordYI);
-        int verticeFin = this.indiceDePunto(coordXF, coordYF);
-
-        if(this.matrizAdyacencia[verticeIni][verticeFin].getExiste() && this.matrizAdyacencia[verticeFin][verticeIni].getExiste())
-            ret = true;
-
-      
-        return ret;
-    }
+//    public boolean existeTramo(double coordXI, double coordYI, double coordXF, double coordYF) {
+//        boolean ret = false;
+//        
+//        int verticeIni = this.indiceDePunto(coordXI, coordYI);
+//        int verticeFin = this.indiceDePunto(coordXF, coordYF);
+//
+//        if(this.matrizAdyacencia[verticeIni][verticeFin].getExiste() && this.matrizAdyacencia[verticeFin][verticeIni].getExiste())
+//            ret = true;
+//
+//      
+//        return ret;
+//    }
     
     
-    public Vertice getVertice(double coordX, double coordY) {
+    public Vertice getVertice(String palab) {
         Vertice ret = null;
         boolean encontro = false;
         int i = 1;
         
-        //Busco en vector de puntos si ya existe uno con las coordenadas recibidas
+        //Busco en vector de palabras si ya existe la recibida por parametrro
         while (!encontro && i <= this.getCantNodos())
         {
-//            if (this.nodosUsados[i] != null && this.nodosUsados[i].getCoordX() == coordX && this.nodosUsados[i].getCoordY() == coordY) {
-//                ret = this.nodosUsados[i];
-//                encontro = true;
-//            }else {
-//                i++;
-//            }         
+            if (this.nodosUsados[i] != null && this.nodosUsados[i].getPalabra().getPalabra().equals(palab)) 
+            {
+                ret = this.nodosUsados[i];
+                encontro = true;
+            }else {
+                i++;
+            }         
         }        
         return ret;        
     }
@@ -266,24 +267,43 @@ public class GrafoMatriz
     }
             
    
-    public int Hash(double coordX, double coordY) {       
+    public int Hash(int x) {       
         int ret = -1;
         int i = 1;
         boolean auxWhile = true;
-        coordX = Math.abs(coordY * 10000000);
-        coordY = Math.abs(coordY * 10000000);
-        
-        int suma = (int)(coordX + coordY);
-          
+                 
         while(auxWhile)
         {
-            ret = ((suma / this.cantNodos) + i) % this.cantNodos;
+            ret = ((x / this.cantNodos) + i) % this.cantNodos;
             i++;
             if(ret > 0 && this.nodosUsados[ret] == null) 
                 auxWhile = false;
         }
         return ret;        
-    }
+    }    
+    
+    
+    
+    
+    
+//    public int Hash(double coordX, double coordY) {       
+//        int ret = -1;
+//        int i = 1;
+//        boolean auxWhile = true;
+//        coordX = Math.abs(coordY * 10000000);
+//        coordY = Math.abs(coordY * 10000000);
+//        
+//        int suma = (int)(coordX + coordY);
+//          
+//        while(auxWhile)
+//        {
+//            ret = ((suma / this.cantNodos) + i) % this.cantNodos;
+//            i++;
+//            if(ret > 0 && this.nodosUsados[ret] == null) 
+//                auxWhile = false;
+//        }
+//        return ret;        
+//    }
     
     
     public void mostrarMatrizAdyacencia() 

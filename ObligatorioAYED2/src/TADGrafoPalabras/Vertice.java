@@ -1,23 +1,25 @@
 package TADGrafoPalabras;
 
+import Dominio.Palabra;
+
 
 
 public class Vertice {
 
    
     private boolean existeNodo; 
-    private Object elem;
+    private Palabra palabra;
 
     
     
-    public Vertice(boolean existeNodo, Object elem) {
+    public Vertice(boolean existeNodo, Palabra elem) {
         this.existeNodo = existeNodo;
-        this.elem = elem;
+        this.palabra = elem;
     }
 
     public Vertice() {
         this.existeNodo = false;
-        this.elem = null;
+        this.palabra = null;
     }
 
            
@@ -31,12 +33,12 @@ public class Vertice {
     
     
 
-    public Object getElem() {
-        return elem;
+    public Palabra getPalabra() {
+        return palabra;
     }
 
-    public void setElem(Object elem) {
-        this.elem = elem;
+    public void setPalabra(Palabra elem) {
+        this.palabra = elem;
     }
     
 }
