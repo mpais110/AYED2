@@ -146,8 +146,29 @@ public class Sistema implements ISistema
 
     @Override
     public Retorno aparicionesPalabra(String palabra) {
-            // ToDo: Implementar aqui el metodo
-            return new Retorno(Resultado.NO_IMPLEMENTADA);
+        Retorno ret = new Retorno();
+
+        ret.resultado = Resultado.NO_IMPLEMENTADA;
+        ret.valorString = "NO_IMPLEMENTADA";
+        
+        Palabra palabr = new Palabra(palabra,1);
+        Palabra pal = palabras.getVertice(palabra).getPalabra();
+        
+        if (pal != null)
+        {
+            //Retorno la cantidad de repeticiones
+            ret.valorEntero = pal.getCantidad();
+            ret.resultado = Resultado.OK;
+            ret.valorString = "OK";
+        }
+        else
+        {   
+            //Error 1 si no se encontr� la palabra.
+            ret.resultado = Resultado.ERROR_1;
+            ret.valorString = "ERROR_1";
+        }
+        
+        return ret;   
     }
 
     @Override

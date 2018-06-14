@@ -93,7 +93,7 @@ public class SistemaTest {
 	System.out.println("Resultado obtenido: " + result.valorString);
         System.out.println("______________________________________________________________________________");
     }
-    
+    /*
     @Test
     public void testAnalizarTextoSinSeparadores() {
         System.out.println("------------------------------------------------------------------------------");
@@ -101,7 +101,7 @@ public class SistemaTest {
         
         sis.inicializarSistema(20);
         String texto;
-        texto = "ADASDFVSCcsdvsfsdfdsf654684vdxfsdvfvdvxdvsfv";	
+        texto = "Holaholaholacomoholacomoestasholacomocomoestas";	
         
         Resultado expResult = Retorno.Resultado.OK;
         Retorno result = sis.analizarTexto(texto);
@@ -110,6 +110,25 @@ public class SistemaTest {
         
         System.out.println("Resultado esperado: adasdfvsccsdvsfsdfdsf654684vdxfsdvfvdvxdvsfv;1");
         System.out.println("Resultado obtenido: " + result.valorString);
+        System.out.println("______________________________________________________________________________");
+    }*/
+    
+        @Test
+    public void testAparicionesPalabra() {
+    	System.out.println("------------------------------------------------------------------------------");
+        System.out.println("PALABRAS AparicionesPalabra");
+        
+        sis.inicializarSistema(10);
+        String texto;
+        texto = "aaa!ccc aaa ccc.aaa,ggg:ccc!ccc";
+        
+        Resultado expResult = Retorno.Resultado.OK;
+        Retorno result = sis.analizarTexto(texto);
+        assertEquals(expResult, result.resultado);
+        result = sis.aparicionesPalabra("aaa");
+        
+        System.out.println("Resultado esperado: 3");
+        System.out.println("Resultado obtenido: " + result.valorEntero);
         System.out.println("______________________________________________________________________________");
     }
 }
