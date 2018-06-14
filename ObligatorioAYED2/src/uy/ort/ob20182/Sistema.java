@@ -52,6 +52,9 @@ public class Sistema implements ISistema
     public Retorno destruirSistema() 
     {
         Retorno ret = new Retorno();
+        
+        ret.resultado = Resultado.NO_IMPLEMENTADA;
+        ret.valorString = "NO_IMPLEMENTADA";
 
         //Desreferenciar grafo de palabras
         if (!palabras.esVacio())
@@ -108,8 +111,9 @@ public class Sistema implements ISistema
 
                             //Calculo identificador de palabra. notar que hola y halo tendrian el mismo id;
                             int x = 0;
-                            for (int j = 0; j < palab[i].length(); j++) 
+                            for (int j = 0; j < palab[i].length(); j++) {
                                 x += (int)palab[i].charAt(j);
+                            }
                             
                             //Busco indice para insertar
                             int indice = palabras.Hash(x);
@@ -157,5 +161,4 @@ public class Sistema implements ISistema
             // ToDo: Implementar aqui el metodo
             return new Retorno(Resultado.NO_IMPLEMENTADA);
     }
-	
 }
