@@ -1,4 +1,4 @@
-package TADgrafoPalabras;
+package TADGrafoPalabras;
 
 import TADLista.Lista;
 

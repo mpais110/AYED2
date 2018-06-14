@@ -48,7 +48,6 @@ public class GrafoMatriz
     public void setMatrizAdyacencia(Tramos[][] matrizAdyacencia) {
         this.matrizAdyacencia = matrizAdyacencia;
     }
-
     
     public Vertice[] getNodosUsados() {
         return nodosUsados;
