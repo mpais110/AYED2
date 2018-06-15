@@ -1,17 +1,15 @@
 package TADGrafoPalabras;
 
-import TADLista.Lista;
+import TADLista.Lista2;
 
 
-public class Tramos {
-    
+public class Tramos 
+{
     private boolean existe;
     private int peso;
-    private int ordenEsc; //Autogenerado
-    private Lista listaInt; // ¿Para qué era?
-    
+    private Lista2 orden;
 
-    public boolean getExiste() {
+    public boolean isExiste() {
         return existe;
     }
 
@@ -27,13 +25,31 @@ public class Tramos {
         this.peso = peso;
     }
 
-    public Tramos() {
-            this.existe = false;
-            this.peso = 0;
+    public Lista2 getOrden() {
+        return orden;
     }
 
-    public Tramos(int peso) {
-            this.existe = true;
-            this.peso = peso;
+    public void setOrden(Lista2 orden) {
+        this.orden = orden;
     }
+    
+    
+
+    public Tramos(int orden) {
+        this.existe = true;
+        this.peso = 1;
+        this.orden = new Lista2();
+        this.orden.agregarInicio(orden);
+    }
+    
+    
+    public Tramos() 
+    {
+        this.existe = false;
+        this.peso = 0;
+        this.orden = new Lista2();
+    }
+    
+    
+    
 }

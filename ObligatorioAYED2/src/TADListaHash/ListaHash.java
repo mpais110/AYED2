@@ -1,29 +1,29 @@
-package TADLista;
+package TADListaHash;
+
+import TADGrafoPalabras.VerticeHash;
 
 
-
-
-public class Lista<T> {
-    private NodoLista<T> inicio;
+public class ListaHash {
+    private NodoListaHash inicio;
     int tamano;
     
 
     //Constructor
-    public Lista()
+    public ListaHash()
     {
         inicio = null;
         tamano = 0;
     }
     
     
-    public NodoLista<T> getInicio() {
+    public NodoListaHash getInicio() {
         return inicio;
     }
 
     
-    public void insertar(T dato)
+    public void insertar(VerticeHash dato)
     {
-        NodoLista<T> nuevo = new NodoLista<T>(dato, inicio);
+        NodoListaHash nuevo = new NodoListaHash(dato, inicio);
         inicio = nuevo;
     }
     
@@ -32,12 +32,12 @@ public class Lista<T> {
 //    {
 //        if (inicio == null)
 //        {
-//            inicio = new NodoListaHash(obj);
+//            inicio = new NodoLista(obj);
 //        }
 //        else
 //        {
-//            NodoListaHash aux = inicio;
-//            NodoListaHash nuevo = new NodoListaHash(obj);
+//            NodoLista aux = inicio;
+//            NodoLista nuevo = new NodoLista(obj);
 //            nuevo.setSig(aux);
 //            inicio = nuevo;
 //        }
@@ -83,7 +83,7 @@ public class Lista<T> {
         else
         {
             int contador = 0;
-            NodoLista aux = inicio;
+            NodoListaHash aux = inicio;
             while(contador < ind - 1)
             {
                 aux = aux.getSig();
@@ -92,6 +92,15 @@ public class Lista<T> {
             aux.setSig(aux.getSig().getSig());
         }
         tamano--;
+    }
+    
+    
+    public NodoListaHash obtenerElemento(String palab){
+        NodoListaHash aux = this.inicio;
+        while (aux != null && !aux.getDato().getPalabra().equals(palab))
+            aux = aux.getSig();
+        //encontré dato o llegué al final
+        return aux;
     }
 }
 
