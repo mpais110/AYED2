@@ -13,7 +13,7 @@ public class NodoListaPalabra{
     public NodoListaPalabra(int n, Palabra pal){
         this.peso=n;
         this.palabra = pal;
-        this.sig=null;
+        this.sig = null;
     }
 
     //Dato

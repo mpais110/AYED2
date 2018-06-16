@@ -5,7 +5,7 @@ public class ListaPalabra {
     //private NodoLista2 fin;
 
     //Constructor
-    public void Lista(){
+    public void ListaPalabra(){
         this.inicio=null;
         //this.fin=null;
     }
@@ -56,9 +56,9 @@ public class ListaPalabra {
             }
             else
             {
-                while (aux.getSig() != null && aux.getSig().getPeso() < nodo.getPeso())
+                while (aux.getSig() != null && aux.getSig().getPeso() >= nodo.getPeso())
                 {
-                    aux.getSig();
+                    aux = aux.getSig();
                 }
                 nuevo.setSig(aux.getSig());
                 aux.setSig(nuevo);              
@@ -142,9 +142,9 @@ public class ListaPalabra {
             while (aux != null && i <= 3)  
             {
                 if(i == 3)
-                    ret += aux.getPalabra().getPalabra() + "|" + aux.getPeso();
+                    ret += aux.getPalabra().getPalabra() + ";" + aux.getPeso();
                 else
-                    ret += aux.getPalabra().getPalabra() + "|" + aux.getPeso() + "|";
+                    ret += aux.getPalabra().getPalabra() + ";" + aux.getPeso() + "|";
                 
                 aux = aux.getSig();
                 i++;
