@@ -56,7 +56,7 @@ public class ListaPalabra {
             }
             else
             {
-                while (aux.getSig() != null && aux.getSig().getPeso() < this.inicio.getPeso())
+                while (aux.getSig() != null && aux.getSig().getPeso() < nodo.getPeso())
                 {
                     aux.getSig();
                 }

@@ -79,7 +79,7 @@ public class Sistema implements ISistema
         ret.resultado = Resultado.NO_IMPLEMENTADA;
         ret.valorString = "NO_IMPLEMENTADA";
         
-        int ordenAparicion = 0;
+        int ordenAparicion = 1;
         int indiceVecVert = 0;
         int ultimoVertice = 0;
 
@@ -110,7 +110,14 @@ public class Sistema implements ISistema
 
                         //Agrego al grafo
                         palabras.agregarVertice(indiceVecVert, nueva, idPalabra);
+                        
+                        //Registro los tramos de acuerdo al orden de aparicion
+                        if(ordenAparicion > 1)
+                            palabras.agregarArista(ultimoVertice, indiceVecVert, ordenAparicion);
 
+                        //Actualizo el último indice
+                        ultimoVertice = indiceVecVert;
+                        
                         //Incremento el indice para insertar en vector de vertices
                         indiceVecVert++;
                     }
@@ -136,14 +143,18 @@ public class Sistema implements ISistema
 
                     Palabra pa = palabras.getNodosUsados()[posEnVectVertices].getPalabra();
                     pa.setCantidad(pa.getCantidad() + 1);
+                    
+                    //Registro los tramos de acuerdo al orden de aparicion
+                    palabras.agregarArista(ultimoVertice, posEnVectVertices, ordenAparicion);
+                    
+                    ultimoVertice = posEnVectVertices;
 
                 }
                 
-                //Registro los tramos de acuerdo al orden de aparicion
-                palabras.agregarArista(ultimoVertice, indiceVecVert, ++ordenAparicion);
+                ordenAparicion++;
+                
 
-                //Actualizo el último indice
-                ultimoVertice = indiceVecVert;
+                
             }
             ret.resultado = Resultado.OK;
             ret.valorString = "OK"; 
