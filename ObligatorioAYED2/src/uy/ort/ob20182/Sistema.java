@@ -2,6 +2,8 @@ package uy.ort.ob20182;
 
 import Dominio.Palabra;
 import TADGrafoPalabras.GrafoMatriz;
+import TADLista.ListaPalabra;
+import TADListaHash.NodoListaHash;
 import uy.ort.ob20182.Retorno.Resultado;
 
 public class Sistema implements ISistema 
@@ -52,7 +54,6 @@ public class Sistema implements ISistema
     public Retorno destruirSistema() 
     {
         Retorno ret = new Retorno();
-        
         ret.resultado = Resultado.NO_IMPLEMENTADA;
         ret.valorString = "NO_IMPLEMENTADA";
 
@@ -75,7 +76,12 @@ public class Sistema implements ISistema
     public Retorno analizarTexto(String texto) 
     {
         Retorno ret = new Retorno();
+        ret.resultado = Resultado.NO_IMPLEMENTADA;
+        ret.valorString = "NO_IMPLEMENTADA";
+        
         int ordenAparicion = 0;
+        int indiceVecVert = 0;
+        int ultimoVertice = 0;
 
         //Error 1 si el texto es vacio
         if(texto.equals(""))
@@ -89,92 +95,120 @@ public class Sistema implements ISistema
             texto = texto.toLowerCase();
             String[] palab = texto.split("\\b[.:,�!?�() \\s]+");
 
-            //ERROR 2 si el texto tiene más de maxPalabras diferentes.
-            if(palab.length > palabras.getCantNodos())
+            for(int i=0; i < palab.length; i++)
             {
-                ret.resultado = Resultado.ERROR_2;
-                ret.valorString = "ERROR_2";
-            }
-            else
-            {
-                for(int i=0; i < palab.length; i++)
+                //Calculo identificador de palabra.
+                int idPalabra = palabras.getHash().identifPalabra(palab[i]);
+
+                //Si no existe palabra, la agrego, de lo contrario sumo 1 al contador
+                if (!palabras.existePalabra(palab[i]))
                 {
-                    //Grabo en el grafo
-                    //Verifico que el grafo no esté lleno
                     if (!palabras.estaLleno())
                     {
-                        //Si no existe palabra, la agrego, de lo contrario sumo 1 al contador
-                        if (!palabras.existePalabra(palab[i]))
+                        //Crear Palabra
+                        Palabra nueva = new Palabra(palab[i],1);
+
+                        //Agrego al grafo
+                        palabras.agregarVertice(indiceVecVert, nueva, idPalabra);
+
+                        //Incremento el indice para insertar en vector de vertices
+                        indiceVecVert++;
+                    }
+                    else
+                    {
+                        //ERROR 2 si el texto tiene más de maxPalabras diferentes.
+                        if(palab.length > palabras.getCantNodos())
                         {
-                            //Crear Palabra
-                            Palabra nueva = new Palabra(palab[i],1);
-
-                            //Calculo identificador de palabra. notar que hola y halo tendrian el mismo id;
-                            int x = 0;
-                            for (int j = 0; j < palab[i].length(); j++) {
-                                x += (int)palab[i].charAt(j);
-                            }
-                            
-                            //Busco indice para insertar
-                            int indice = palabras.Hash(x);
-
-                            //Agrego al grafo
-                            palabras.agregarVertice(indice, nueva);
+                            ret.resultado = Resultado.ERROR_2;
+                            ret.valorString = "ERROR_2";
                         }
-                        else
-                        {
-                            //Sumo 1 a la cantidad de repeticiones
-                            palabras.getVertice(palab[i]).getPalabra().setCantidad(palabras.getVertice(palab[i]).getPalabra().getCantidad() + 1);
-                        }
-
-                        //Registro los tramos de acuerdo al orden de aparicion
-
-                        int indiceOrigen = palabras.indiceDePalabra(palab[i]);
-                        int indiceDestino = palabras.indiceDePalabra(palab[i-1]);
-
-                        palabras.agregarArista(indiceOrigen, indiceDestino, ++ordenAparicion);
-
                     }
                 }
-                ret.resultado = Resultado.OK;
-                ret.valorString = "OK"; 
-            }
-        }
+                else
+                {
+                    //Sería bueno modificarlo para que busque en el Hash y luego en su lista. Una vez que tengo el indice, voy al vector de vertices y lo actualizo 
+                    //palabras.getVertice(palab[i]).getPalabra().setCantidad(palabras.getVertice(palab[i]).getPalabra().getCantidad() + 1);
 
+                    //Sumo 1 a la cantidad de repeticiones
+                    int posEnHash = palabras.getHash().fHash(idPalabra);
+                    NodoListaHash nodoEnHash = palabras.getHash().getArr()[posEnHash].obtenerElemento(palab[i]);
+                    int posEnVectVertices = nodoEnHash.getDato().getPosic();
+
+                    Palabra pa = palabras.getNodosUsados()[posEnVectVertices].getPalabra();
+                    pa.setCantidad(pa.getCantidad() + 1);
+
+                }
+                
+                //Registro los tramos de acuerdo al orden de aparicion
+                palabras.agregarArista(ultimoVertice, indiceVecVert, ++ordenAparicion);
+
+                //Actualizo el último indice
+                ultimoVertice = indiceVecVert;
+            }
+            ret.resultado = Resultado.OK;
+            ret.valorString = "OK"; 
+        }
         return ret;   
     }
 
     @Override
     public Retorno aparicionesPalabra(String palabra) {
         Retorno ret = new Retorno();
-
         ret.resultado = Resultado.NO_IMPLEMENTADA;
         ret.valorString = "NO_IMPLEMENTADA";
+
+        //Obtengo posicion en el hash
+        int posicHash = palabras.getHash().fHash(palabras.getHash().identifPalabra(palabra));
         
-        Palabra palabr = new Palabra(palabra,1);
-        Palabra pal = palabras.getVertice(palabra).getPalabra();
-        
-        if (pal != null)
+        //Busco la palabra en el Hash
+        if (palabras.getHash().getArr()[posicHash].estaVacia() && palabras.getHash().getArr()[posicHash].obtenerElemento(palabra)== null)
         {
-            //Retorno la cantidad de repeticiones
-            ret.valorEntero = pal.getCantidad();
-            ret.resultado = Resultado.OK;
-            ret.valorString = "OK";
-        }
-        else
-        {   
-            //Error 1 si no se encontr� la palabra.
             ret.resultado = Resultado.ERROR_1;
             ret.valorString = "ERROR_1";
         }
+        else
+        {
+            int posicVectVert = palabras.getHash().getArr()[posicHash].obtenerElemento(palabra).getDato().getPosic();
         
-        return ret;   
+            //Traigo del vector de vertices la cantidad de repeticiones
+            int cantRep = palabras.getNodosUsados()[posicVectVert].getPalabra().getCantidad();
+
+            ret.resultado = Resultado.OK;
+            ret.valorString = "OK";
+            ret.valorEntero = cantRep;
+        }
+      
+        return ret;
     }
 
     @Override
     public Retorno predecirPalabra(String palabra) {
-            // ToDo: Implementar aqui el metodo
-            return new Retorno(Resultado.NO_IMPLEMENTADA);
+        
+        Retorno ret = new Retorno();
+        ret.resultado = Resultado.NO_IMPLEMENTADA;
+        ret.valorString = "NO_IMPLEMENTADA";
+        
+        //Obtengo posicion en el hash
+        int posicHash = palabras.getHash().fHash(palabras.getHash().identifPalabra(palabra));
+        
+        //Error 1 si la palabra no se encontro en el texto.
+        if (palabras.getHash().getArr()[posicHash].estaVacia() && palabras.getHash().getArr()[posicHash].obtenerElemento(palabra)== null)
+        {
+            ret.resultado = Resultado.ERROR_1;
+            ret.valorString = "ERROR_1";
+        }
+        else
+        {
+            //Obtengo la posicion en el vector de verices
+            int posicVectVert = palabras.getHash().getArr()[posicHash].obtenerElemento(palabra).getDato().getPosic();
+            
+            //Busco sus adyacentes y los guardo en una lista ordenada descendente
+            ListaPalabra listaPal = palabras.verticesAdyacentes(posicVectVert);
+            ret.valorString = listaPal.mostrarTresPrimeros();
+            ret.resultado = Resultado.OK;
+        }
+
+        return ret;
     }
 
     @Override
@@ -182,4 +216,5 @@ public class Sistema implements ISistema
             // ToDo: Implementar aqui el metodo
             return new Retorno(Resultado.NO_IMPLEMENTADA);
     }
+	
 }

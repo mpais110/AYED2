@@ -1,6 +1,9 @@
 package TADGrafoPalabras;
 
 import Dominio.Palabra;
+import TADLista.ListaPalabra;
+import TADLista.NodoListaPalabra;
+import TADListaHash.ListaHash;
 import java.util.Arrays;
         
 public class GrafoMatriz 
@@ -9,21 +12,63 @@ public class GrafoMatriz
     private int cantNodos;
     private Tramos[][] matrizAdyacencia;
     private Vertice[] nodosUsados;
+    private Hash hash;
     
     
     //Crea el grafo vacio (sin nodos ni aristas) con capacidad de almacenamiento de "cantNodos" vértices
     public GrafoMatriz(int cantNodos) {
         this.size = 0;
-        this.cantNodos = cantNodos * 2;
+        this.cantNodos = cantNodos;
 
-        this.matrizAdyacencia = new Tramos[this.cantNodos+1][this.cantNodos+1];
+        this.matrizAdyacencia = new Tramos[this.cantNodos][this.cantNodos];
         
-        for (int i = 1; i <= this.cantNodos; i++)
-                for (int j = 1; j <= this.cantNodos; j++)
+        for (int i = 0; i < this.cantNodos; i++)
+                for (int j = 0; j < this.cantNodos; j++)
                   this.matrizAdyacencia[i][j] = new Tramos();
 
-        this.nodosUsados = new Vertice[this.cantNodos+1];
+        this.nodosUsados = new Vertice[this.cantNodos];
+        this.hash = new Hash(cantNodos);
     }
+    
+    // Pre: existeVertice(c)
+    public ListaPalabra verticesAdyacentes(int posVert) {
+        ListaPalabra ret = new ListaPalabra();
+        for (int i = 0; i < matrizAdyacencia.length; i++) {
+                if (this.matrizAdyacencia[posVert][i].isExiste()) {
+                    
+                    NodoListaPalabra nuevo = new NodoListaPalabra(matrizAdyacencia[posVert][i].getPeso(), nodosUsados[i].getPalabra());
+                        ret.insertaOrdenadoDesc(nuevo);
+                }
+        }
+        return ret;
+    }
+//    public int siguientePrimo (int num)
+//    {
+//        boolean encontro = false;
+//        boolean esPrimo = true;
+//        int primo = num;
+//        
+//        while(!encontro && esPrimo)
+//        {
+//            int contador = 2;
+//            while (contador != num)
+//            {
+//              if (num % contador == 0)
+//                esPrimo = false;
+//              contador++;
+//            }
+//            
+//            if(!esPrimo)
+//            {
+//                encontro = true;
+//                primo = num;
+//            }
+//            else
+//                num++;
+//        }
+//        return primo;
+//    }
+
     
     public int getSize() {
         return size;
@@ -48,6 +93,7 @@ public class GrafoMatriz
     public void setMatrizAdyacencia(Tramos[][] matrizAdyacencia) {
         this.matrizAdyacencia = matrizAdyacencia;
     }
+
     
     public Vertice[] getNodosUsados() {
         return nodosUsados;
@@ -57,19 +103,35 @@ public class GrafoMatriz
         this.nodosUsados = nodosUsados;
     }
 
+    public Hash getHash() {
+        return hash;
+    }
     
-    public void agregarArista(int origen, int destino, int peso) {
-        Tramos nuevo = new Tramos(peso);
-        this.matrizAdyacencia[origen][destino] = nuevo;
-        this.matrizAdyacencia[destino][origen] = nuevo;
+    
+    public void agregarArista(int origen, int destino, int orden) 
+    {
+        //Si ya existe, le sumo 1 a peso e ingreso el orden en la lista de int, de lo contrario, doy de alta la arista
+        if (this.matrizAdyacencia[origen][destino].isExiste())
+        {
+            this.matrizAdyacencia[origen][destino].setPeso(this.matrizAdyacencia[origen][destino].getPeso() + 1);
+            this.matrizAdyacencia[origen][destino].getOrden().agregarInicio(orden);
+        }
+        else 
+        {
+            Tramos nuevo = new Tramos(orden);
+            this.matrizAdyacencia[origen][destino] = nuevo;
+        }
     }
 
-    
-    public void agregarVertice(int v,  Palabra elem) {
 
+    public void agregarVertice(int indiceVecVert,  Palabra elem, int idPalabra) 
+    {
         //CrearVértice
         Vertice nuevo = new Vertice(true, elem);
-        this.nodosUsados[v] = nuevo;
+        VerticeHash nuevito = new VerticeHash(elem.getPalabra(), indiceVecVert);
+        
+        this.nodosUsados[indiceVecVert] = nuevo;
+        this.hash.insertar(idPalabra, nuevito);
         
         this.size++;
         
@@ -104,12 +166,12 @@ public class GrafoMatriz
 
     
     public boolean estaLleno() {
-        return size == cantNodos/2;
+        return size == cantNodos;
     }
     
     
     public boolean sonAdyacentes(int a, int b) {
-            return this.matrizAdyacencia[a][b].getExiste();
+            return this.matrizAdyacencia[a][b].isExiste();
     }
 
     
@@ -121,10 +183,10 @@ public class GrafoMatriz
     public boolean existePalabra(String pal) {
         
         boolean encontro = false;
-        int i = 1;
+        int i = 0;
         
         //Busco en vector de palabras si ya existe una igual
-        while (!encontro && i <= this.getCantNodos())
+        while (!encontro && i < this.getCantNodos())
         {
             if (this.nodosUsados[i] != null && this.nodosUsados[i].getPalabra().getPalabra().equals(pal))
                 encontro = true;
@@ -265,21 +327,21 @@ public class GrafoMatriz
         return cantidad;   
     }
             
-   
-    public int Hash(int x) {       
-        int ret = -1;
-        int i = 1;
-        boolean auxWhile = true;
-                 
-        while(auxWhile)
-        {
-            ret = ((x / this.cantNodos) + i) % this.cantNodos;
-            i++;
-            if(ret > 0 && this.nodosUsados[ret] == null) 
-                auxWhile = false;
-        }
-        return ret;        
-    }    
+//   
+//    public int Hash(int x) {       
+//        int ret = -1;
+//        int i = 1;
+//        boolean auxWhile = true;
+//                 
+//        while(auxWhile)
+//        {
+//            ret = ((x / this.cantNodos) + i) % this.cantNodos;
+//            i++;
+//            if(ret > 0 && this.nodosUsados[ret] == null) 
+//                auxWhile = false;
+//        }
+//        return ret;        
+//    }    
     
     
     
