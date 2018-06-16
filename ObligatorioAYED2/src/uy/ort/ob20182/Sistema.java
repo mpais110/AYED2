@@ -2,6 +2,7 @@ package uy.ort.ob20182;
 
 import Dominio.Palabra;
 import TADGrafoPalabras.GrafoMatriz;
+import TADLista.ListaPalabra;
 import TADListaHash.NodoListaHash;
 import uy.ort.ob20182.Retorno.Resultado;
 
@@ -53,6 +54,8 @@ public class Sistema implements ISistema
     public Retorno destruirSistema() 
     {
         Retorno ret = new Retorno();
+        ret.resultado = Resultado.NO_IMPLEMENTADA;
+        ret.valorString = "NO_IMPLEMENTADA";
 
         //Desreferenciar grafo de palabras
         if (!palabras.esVacio())
@@ -73,6 +76,9 @@ public class Sistema implements ISistema
     public Retorno analizarTexto(String texto) 
     {
         Retorno ret = new Retorno();
+        ret.resultado = Resultado.NO_IMPLEMENTADA;
+        ret.valorString = "NO_IMPLEMENTADA";
+        
         int ordenAparicion = 0;
         int indiceVecVert = 0;
         int ultimoVertice = 0;
@@ -148,12 +154,14 @@ public class Sistema implements ISistema
     @Override
     public Retorno aparicionesPalabra(String palabra) {
         Retorno ret = new Retorno();
+        ret.resultado = Resultado.NO_IMPLEMENTADA;
+        ret.valorString = "NO_IMPLEMENTADA";
 
         //Obtengo posicion en el hash
         int posicHash = palabras.getHash().fHash(palabras.getHash().identifPalabra(palabra));
         
         //Busco la palabra en el Hash
-        if (palabras.getHash().getArr()[posicHash].estaVacia())
+        if (palabras.getHash().getArr()[posicHash].estaVacia() && palabras.getHash().getArr()[posicHash].obtenerElemento(palabra)== null)
         {
             ret.resultado = Resultado.ERROR_1;
             ret.valorString = "ERROR_1";
@@ -175,8 +183,32 @@ public class Sistema implements ISistema
 
     @Override
     public Retorno predecirPalabra(String palabra) {
-            // ToDo: Implementar aqui el metodo
-            return new Retorno(Resultado.NO_IMPLEMENTADA);
+        
+        Retorno ret = new Retorno();
+        ret.resultado = Resultado.NO_IMPLEMENTADA;
+        ret.valorString = "NO_IMPLEMENTADA";
+        
+        //Obtengo posicion en el hash
+        int posicHash = palabras.getHash().fHash(palabras.getHash().identifPalabra(palabra));
+        
+        //Error 1 si la palabra no se encontro en el texto.
+        if (palabras.getHash().getArr()[posicHash].estaVacia() && palabras.getHash().getArr()[posicHash].obtenerElemento(palabra)== null)
+        {
+            ret.resultado = Resultado.ERROR_1;
+            ret.valorString = "ERROR_1";
+        }
+        else
+        {
+            //Obtengo la posicion en el vector de verices
+            int posicVectVert = palabras.getHash().getArr()[posicHash].obtenerElemento(palabra).getDato().getPosic();
+            
+            //Busco sus adyacentes y los guardo en una lista ordenada descendente
+            ListaPalabra listaPal = palabras.verticesAdyacentes(posicVectVert);
+            ret.valorString = listaPal.mostrarTresPrimeros();
+            ret.resultado = Resultado.OK;
+        }
+
+        return ret;
     }
 
     @Override

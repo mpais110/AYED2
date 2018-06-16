@@ -1,6 +1,8 @@
 package TADGrafoPalabras;
 
 import Dominio.Palabra;
+import TADLista.ListaPalabra;
+import TADLista.NodoListaPalabra;
 import TADListaHash.ListaHash;
 import java.util.Arrays;
         
@@ -28,7 +30,18 @@ public class GrafoMatriz
         this.hash = new Hash(cantNodos);
     }
     
-    
+    // Pre: existeVertice(c)
+    public ListaPalabra verticesAdyacentes(int posVert) {
+        ListaPalabra ret = new ListaPalabra();
+        for (int i = 0; i < matrizAdyacencia.length; i++) {
+                if (this.matrizAdyacencia[posVert][i].isExiste()) {
+                    
+                    NodoListaPalabra nuevo = new NodoListaPalabra(matrizAdyacencia[posVert][i].getPeso(), nodosUsados[i].getPalabra());
+                        ret.insertaOrdenadoDesc(nuevo);
+                }
+        }
+        return ret;
+    }
 //    public int siguientePrimo (int num)
 //    {
 //        boolean encontro = false;
