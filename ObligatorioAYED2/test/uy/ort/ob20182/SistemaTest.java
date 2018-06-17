@@ -1,6 +1,6 @@
 package uy.ort.ob20182;
 
-import TADGrafoPalabras.GrafoMatriz;
+import TADGrafoPalabras.Grafo;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -187,5 +187,97 @@ public class SistemaTest {
         System.out.println("Resultado obtenido: " + result.valorString);
         System.out.println("______________________________________________________________________________");
     }
+    
+    
+    
+    @Test
+    public void testRepetirFraseConPalabraIniNoExiste() {
+    	System.out.println("------------------------------------------------------------------------------");
+        System.out.println("PALABRAS testRepetirFraseConPalabraIniNoExiste");
+        Sistema instance = new Sistema();
+        instance.inicializarSistema(30);
+        String texto;
+        texto = "aaa!CCC AAA DDD.ddd,G:HHH!ii(jjjjj)JJJJJ�ll!m�nnn?ooooo OOO QQq RRR 152 874";		
+        Resultado expResult = Retorno.Resultado.OK;
+        Retorno result = instance.analizarTexto(texto);
+        assertEquals(expResult, result.resultado);
+        result = instance.repetirFrase("pdqbqe", "aaa");
+        System.out.println("Resultado esperado: ERROR_1");
+        System.out.println("Resultado obtenido: " + result.valorString);
+        System.out.println("______________________________________________________________________________");
+    }
+    
+    
+    @Test
+    public void testRepetirFraseConPalabraFinNoExiste() {
+    	System.out.println("------------------------------------------------------------------------------");
+        System.out.println("PALABRAS testRepetirFraseConPalabraFinNoExiste");
+        Sistema instance = new Sistema();
+        instance.inicializarSistema(30);
+        String texto;
+        texto = "aaa!CCC AAA DDD.ddd,G:HHH!ii(jjjjj)JJJJJ�ll!m�nnn?ooooo OOO QQq RRR 152 874";		
+        Resultado expResult = Retorno.Resultado.OK;
+        Retorno result = instance.analizarTexto(texto);
+        assertEquals(expResult, result.resultado);
+        result = instance.repetirFrase("aaa", "pdqbqe");
+        System.out.println("Resultado esperado: ERROR_1");
+        System.out.println("Resultado obtenido: " + result.valorString);
+        System.out.println("______________________________________________________________________________");
+    }
+
+
+    @Test
+    public void testRepetirFraseConSecuenciaPalabrasNoRepetidas() {
+    	System.out.println("------------------------------------------------------------------------------");
+        System.out.println("PALABRAS testRepetirFraseConSecuenciaPalabrasNoRepetidas");
+        Sistema instance = new Sistema();
+        instance.inicializarSistema(30);
+        String texto;
+        texto = "Mira Abuela usare el salero para explicarte la Ley del Offside y te vas a volver fanatica";		
+        Resultado expResult = Retorno.Resultado.OK;
+        Retorno result = instance.analizarTexto(texto);
+        assertEquals(expResult, result.resultado);
+        result = instance.repetirFrase("abuela", "offside");
+        System.out.println("Resultado esperado: ERROR_1");
+        System.out.println("Resultado obtenido: " + result.valorString);
+        System.out.println("______________________________________________________________________________");
+    }
+
+    
+    @Test
+    public void testRepetirFraseConSecuenciaPalabrasRepetidas() {
+    	System.out.println("------------------------------------------------------------------------------");
+        System.out.println("PALABRAS testRepetirFraseConSecuenciaPalabrasRepetidas");
+        Sistema instance = new Sistema();
+        instance.inicializarSistema(50);
+        String texto;
+        texto = "Mira Abuela les dare unos puntos a estos muchachos para el parcial :) jiji y mira abuelita hay puntos";		
+        Resultado expResult = Retorno.Resultado.OK;
+        Retorno result = instance.analizarTexto(texto);
+        assertEquals(expResult, result.resultado);
+        result = instance.repetirFrase("aaa", "pdqbqe");
+        System.out.println("Resultado esperado: ERROR_1");
+        System.out.println("Resultado obtenido: " + result.valorString);
+        System.out.println("______________________________________________________________________________");
+    }
+    
+    
+    @Test
+    public void testRepetirFraseConSecuenciaPalabrasCiclica() {
+    	System.out.println("------------------------------------------------------------------------------");
+        System.out.println("PALABRAS testRepetirFraseConSecuenciaPalabrasCiclica");
+        Sistema instance = new Sistema();
+        instance.inicializarSistema(50);
+        String texto;
+        texto = "Mira Abuela les dare unos puntos a estos muchachos para el parcial :) jiji y mira abuelita hay puntos";		
+        Resultado expResult = Retorno.Resultado.OK;
+        Retorno result = instance.analizarTexto(texto);
+        assertEquals(expResult, result.resultado);
+        result = instance.repetirFrase("muchachos", "les");
+        System.out.println("Resultado esperado: ERROR_1");
+        System.out.println("Resultado obtenido: " + result.valorString);
+        System.out.println("______________________________________________________________________________");
+    }
+
 
 }

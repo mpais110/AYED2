@@ -1,7 +1,7 @@
 package uy.ort.ob20182;
 
 import Dominio.Palabra;
-import TADGrafoPalabras.GrafoMatriz;
+import TADGrafoPalabras.Grafo;
 import TADLista.ListaPalabra;
 import TADListaHash.NodoListaHash;
 import uy.ort.ob20182.Retorno.Resultado;
@@ -9,13 +9,13 @@ import uy.ort.ob20182.Retorno.Resultado;
 public class Sistema implements ISistema 
 {
 
-    private GrafoMatriz palabras;
+    private Grafo palabras;
     
-    public GrafoMatriz getPalabras() {
+    public Grafo getPalabras() {
         return palabras;
     }
 
-    public void setPalabras(GrafoMatriz palabras) {
+    public void setPalabras(Grafo palabras) {
         this.palabras = palabras;
     }
 
@@ -38,7 +38,7 @@ public class Sistema implements ISistema
         else
         {
             //Grafo de palabras
-            this.palabras = new GrafoMatriz(maxPalabras);
+            this.palabras = new Grafo(maxPalabras);
             
 
             ret.resultado = Resultado.OK;
@@ -203,7 +203,7 @@ public class Sistema implements ISistema
         int posicHash = palabras.getHash().fHash(palabras.getHash().identifPalabra(palabra));
         
         //Error 1 si la palabra no se encontro en el texto.
-        if (palabras.getHash().getArr()[posicHash].estaVacia() && palabras.getHash().getArr()[posicHash].obtenerElemento(palabra)== null)
+        if (palabras.getHash().getArr()[posicHash].estaVacia() || palabras.getHash().getArr()[posicHash].obtenerElemento(palabra)== null)
         {
             ret.resultado = Resultado.ERROR_1;
             ret.valorString = "ERROR_1";
@@ -223,9 +223,40 @@ public class Sistema implements ISistema
     }
 
     @Override
-    public Retorno repetirFrase(String palabraIni, String palabraFin) {
-            // ToDo: Implementar aqui el metodo
-            return new Retorno(Resultado.NO_IMPLEMENTADA);
+    public Retorno repetirFrase(String palabraIni, String palabraFin) 
+    {
+        Retorno ret = new Retorno();
+        ret.resultado = Resultado.NO_IMPLEMENTADA;
+        ret.valorString = "NO_IMPLEMENTADA";
+        
+        //Obtengo posicion en el hash
+        int posicHashIni = palabras.getHash().fHash(palabras.getHash().identifPalabra(palabraIni));
+        int posicHashFin = palabras.getHash().fHash(palabras.getHash().identifPalabra(palabraFin));
+        
+        //Error 1 si una de las palabras no se encontro en el texto.
+        if (palabras.getHash().getArr()[posicHashIni].estaVacia() || palabras.getHash().getArr()[posicHashIni].obtenerElemento(palabraIni) == null ||
+            palabras.getHash().getArr()[posicHashFin].estaVacia() || palabras.getHash().getArr()[posicHashFin].obtenerElemento(palabraFin) == null)
+        {
+            ret.resultado = Resultado.ERROR_1;
+            ret.valorString = "ERROR_1";
+        }
+        else  
+        {
+            String retorno = palabras.BusquedaBFS(palabraIni, palabraFin);
+            
+            if(retorno.equals(""))
+            {
+                ret.resultado = Resultado.ERROR_2;
+                ret.valorString = "ERROR_2";
+            }
+            else
+            {
+                ret.resultado = Resultado.OK;
+                ret.valorString = retorno;
+            }          
+        } 
+            
+        return ret;
     }
 	
 }
