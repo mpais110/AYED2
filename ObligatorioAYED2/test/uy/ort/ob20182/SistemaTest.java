@@ -238,7 +238,7 @@ public class SistemaTest {
         Retorno result = instance.analizarTexto(texto);
         assertEquals(expResult, result.resultado);
         result = instance.repetirFrase("abuela", "offside");
-        System.out.println("Resultado esperado: ERROR_1");
+        System.out.println("Resultado esperado: abuela usare el salero para explicarte la ley del offside");
         System.out.println("Resultado obtenido: " + result.valorString);
         System.out.println("______________________________________________________________________________");
     }
@@ -249,14 +249,14 @@ public class SistemaTest {
     	System.out.println("------------------------------------------------------------------------------");
         System.out.println("PALABRAS testRepetirFraseConSecuenciaPalabrasRepetidas");
         Sistema instance = new Sistema();
-        instance.inicializarSistema(50);
+        instance.inicializarSistema(31);
         String texto;
-        texto = "Mira Abuela les dare unos puntos a estos muchachos para el parcial :) jiji y mira abuelita hay puntos";		
+        texto = "Mira Abuela les dare unos puntos a estos muchachos para el parcial jiji y mira abuelita hay puntos";		
         Resultado expResult = Retorno.Resultado.OK;
         Retorno result = instance.analizarTexto(texto);
         assertEquals(expResult, result.resultado);
-        result = instance.repetirFrase("aaa", "pdqbqe");
-        System.out.println("Resultado esperado: ERROR_1");
+        result = instance.repetirFrase("mira", "puntos");
+        System.out.println("Resultado esperado: mira abuelita hay puntos");
         System.out.println("Resultado obtenido: " + result.valorString);
         System.out.println("______________________________________________________________________________");
     }
@@ -267,13 +267,13 @@ public class SistemaTest {
     	System.out.println("------------------------------------------------------------------------------");
         System.out.println("PALABRAS testRepetirFraseConSecuenciaPalabrasCiclica");
         Sistema instance = new Sistema();
-        instance.inicializarSistema(50);
+        instance.inicializarSistema(20);
         String texto;
-        texto = "Mira Abuela les dare unos puntos a estos muchachos para el parcial :) jiji y mira abuelita hay puntos";		
+        texto = "Mira Abuela usare el salero para explicarte la Ley del Offside";		
         Resultado expResult = Retorno.Resultado.OK;
         Retorno result = instance.analizarTexto(texto);
         assertEquals(expResult, result.resultado);
-        result = instance.repetirFrase("muchachos", "les");
+        result = instance.repetirFrase("explicarte", "mira");
         System.out.println("Resultado esperado: ERROR_1");
         System.out.println("Resultado obtenido: " + result.valorString);
         System.out.println("______________________________________________________________________________");

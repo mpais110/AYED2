@@ -4,6 +4,7 @@ import Dominio.Palabra;
 import TADCola.Cola;
 import TADLista.Lista2;
 import TADLista.ListaPalabra;
+import TADLista.NodoLista2;
 import TADLista.NodoListaPalabra;
 import TADListaHash.ListaHash;
 import java.util.Arrays;
@@ -288,16 +289,14 @@ public class Grafo
         q.encolar(sig);
    
 
-        while (!q.esVacia())
+        while (!q.esVacia() && !vis[fin])
         {
-            // pop front node from queue and print it
             sig = q.desencolar();
             ret += nodosUsados[sig].getPalabra().getPalabra() + " ";
 
-            
             for (int i = 0; i < matrizAdyacencia.length; i++) 
             {
-                if(matrizAdyacencia[sig][i].isExiste() && !vis[i])
+                while(matrizAdyacencia[sig][i].isExiste() && !vis[i] && !vis[fin])
                 {
                     vis[i] = true;
                     q.encolar(i);
@@ -305,62 +304,69 @@ public class Grafo
             }
         }
         
-        return ret;
-    }
-    
-    
-    public String BusqBFS(String palIni, String palFin)
-    {
-        String ret = "";
-
-        int ini = indiceDePalabra(palIni);
-        int fin = indiceDePalabra(palFin);
-        int orden = 0;
-
-        boolean[] vis = new boolean[cantNodos];
-        // Inicializo el vector en false
-        for(int i = 0; i < vis.length; vis[i++] = false); 
-
-        //Marco el inicio como visitado
-        vis[fin] = true;
-        ret += nodosUsados[fin].getPalabra().getPalabra() + " ";
-        Lista2 ordenFin = matrizAdyacencia[ini][fin].getOrden();
-        boolean encontro = false;
-        int j = 0;
-        int elem = ordenFin.getInicio().getDato();
-        
-        //Busco en incidentes
-        while (!vis[ini])
-        {
-            for (int i = 0; i < matrizAdyacencia.length; i++) 
-            {
-                if(matrizAdyacencia[i][fin].isExiste() && !vis[i])
-                {
-                    while (!encontro && j < matrizAdyacencia.length )
-                    {
-                        Lista2 listaAAnalizar = matrizAdyacencia[i][fin].getOrden();
-                        int elemAAnalizar = listaAAnalizar.getInicio().getDato();
-                        while(!encontro && listaAAnalizar != null)
-                        {
-                            if(elemAAnalizar < elem && elem - elemAAnalizar == 1)
-                            {
-                                encontro = true;
-                                orden = elemAAnalizar;
-                            }
-                            elemAAnalizar = 
-                        }
-                    }
-                    
-                    
-                    ret += nodosUsados[ini].getPalabra().getPalabra() + " ";
-                    vis[i] = true;
-                    q.encolar(i);
-                }
-            }
-        }
-        
-        ret += nodosUsados[ini].getPalabra().getPalabra() + " ";
+        if(vis[fin])
+            ret += palFin;
+        else
+            ret = "";
         
         return ret;
     }
+    
+//    
+//    public String BusqBFS(String palIni, String palFin)
+//    {
+//        String ret = "";
+//
+//        int ini = indiceDePalabra(palIni);
+//        int fin = indiceDePalabra(palFin);
+//        int orden = 0;
+//
+//        boolean[] vis = new boolean[cantNodos];
+//        // Inicializo el vector en false
+//        for(int i = 0; i < vis.length; vis[i++] = false); 
+//
+//        //Marco el inicio como visitado
+//        vis[fin] = true;
+//        ret += nodosUsados[fin].getPalabra().getPalabra() + " ";
+//        Lista2 ordenFin = matrizAdyacencia[ini][fin].getOrden();
+//        boolean encontro = false;
+//        int j = 0;
+//        int elem = ordenFin.getInicio().getDato();
+//        
+//        //Busco en incidentes
+//        while (!vis[ini])
+//        {
+//            for (int i = 0; i < matrizAdyacencia.length; i++) 
+//            {
+//                //Recorro incidentes para sacar los que llegaron a el
+//                if(matrizAdyacencia[i][fin].isExiste() && !vis[i])
+//                {
+//                    while (!encontro && j < matrizAdyacencia.length )
+//                    {
+//                        Lista2 listaAAnalizar = matrizAdyacencia[i][fin].getOrden();
+//                        NodoLista2 elemAAnalizar = listaAAnalizar.getInicio();
+//                        while(!encontro && elemAAnalizar != null)
+//                        {
+//                            if(elemAAnalizar.getDato() < elem && elem - elemAAnalizar.getDato() == 1)
+//                            {
+//                                encontro = true;
+//                                orden = elemAAnalizar.getDato();
+//                                ret += nodosUsados[ini].getPalabra().getPalabra() + " ";
+//                            }
+//                            elemAAnalizar = elemAAnalizar.getSig();
+//                        }
+//                    }
+//                    
+//                    
+//                    ret += nodosUsados[ini].getPalabra().getPalabra() + " ";
+//                    vis[i] = true;
+//                    
+//                }
+//            }
+//        }
+//        
+//        ret += nodosUsados[ini].getPalabra().getPalabra() + " ";
+//        
+//        return ret;
+//    }
 }

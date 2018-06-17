@@ -96,20 +96,22 @@ public class ISistemaTest {
 	public void testRepetirFrase() {
 		String texto;
 		
-		sis.inicializarSistema(50);
+		sis.inicializarSistema(8);
 		texto = "la madre de la hija de la abuela de la madre de la abuela de rigoberta menchu";			
 		sis.analizarTexto(texto);
 
 		assertEquals(Resultado.ERROR_1, sis.repetirFrase("la","rigobertosa").resultado);
 		assertEquals(Resultado.ERROR_1, sis.repetirFrase("rigobertosa","la").resultado);
-		//assertEquals(Resultado.ERROR_2, sis.repetirFrase("menchu","madre").resultado);
+		assertEquals(Resultado.ERROR_2, sis.repetirFrase("menchu","madre").resultado);
 
 		res = sis.repetirFrase("madre","abuela");
 		assertEquals(Resultado.OK, res.resultado);
 		assertEquals("madre de la abuela",res.valorString);
+                System.out.println(res.valorString);
 		
 		res = sis.repetirFrase("madre","menchu");
 		assertEquals(Resultado.OK, res.resultado);
+                System.out.println(res.valorString);
 		assertTrue(res.valorString.equals("madre de la abuela de rigoberta menchu") || res.valorString.equals("madre de rigoberta menchu"));
 		
 	}
