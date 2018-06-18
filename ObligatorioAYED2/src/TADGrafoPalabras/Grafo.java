@@ -274,6 +274,7 @@ public class Grafo
     {
         String ret = "";
 
+        //Obtengo los indices de las palabras en el vector de vertices
         int sig = indiceDePalabra(palIni);
         int fin = indiceDePalabra(palFin);
         
@@ -304,6 +305,7 @@ public class Grafo
             }
         }
         
+        //Si visité el vector de fin, lo agrego al retorno, de lo contrario devuelvo vacío
         if(vis[fin])
             ret += palFin;
         else
