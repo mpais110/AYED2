@@ -1,7 +1,5 @@
 package TADGrafoPalabras;
 
-import Dominio.Palabra;
-
 
 public class VerticeHash 
 {
@@ -9,8 +7,6 @@ public class VerticeHash
     private String palabra;
     private int posic;
 
-    
-    
     public VerticeHash(String elem, int posic) {
         this.palabra = elem;
         this.posic = posic;
@@ -20,9 +16,6 @@ public class VerticeHash
         this.palabra = null;
         this.posic = -1;
     }
-
-           
-   
 
     public String getPalabra() {
         return palabra;
@@ -39,7 +32,5 @@ public class VerticeHash
     public void setPosic(int posic) {
         this.posic = posic;
     }   
-    
-    
-    
+        
 }

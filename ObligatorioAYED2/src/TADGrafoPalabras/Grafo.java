@@ -2,12 +2,9 @@ package TADGrafoPalabras;
 
 import Dominio.Palabra;
 import TADCola.Cola;
-import TADLista.Lista2;
 import TADLista.ListaPalabra;
-import TADLista.NodoLista2;
 import TADLista.NodoListaPalabra;
-import TADListaHash.ListaHash;
-import java.util.Arrays;
+
         
 public class Grafo 
 {    
@@ -54,7 +51,6 @@ public class Grafo
     public Hash getHash() {
         return hash;
     }
-  
     
     //Crea el grafo vacio (sin nodos ni aristas) con capacidad de almacenamiento de "cantNodos" vértices
     public Grafo(int cantNodos) {
@@ -84,7 +80,6 @@ public class Grafo
         return ret;
     }
     
-    
     public void agregarArista(int origen, int destino, int orden) 
     {
         //Si ya existe, le sumo 1 a peso e ingreso el orden en la lista de int, de lo contrario, doy de alta la arista
@@ -100,7 +95,6 @@ public class Grafo
         }
     }
 
-
     public void agregarVertice(int indiceVecVert,  Palabra elem, int idPalabra) 
     {
         //CrearVértice
@@ -114,29 +108,6 @@ public class Grafo
         
     }
     
-//    
-//    public void eliminarArista(int origen, int destino) {
-//            Tramos nuevo = new Tramos();
-//            this.matrizAdyacencia[origen][destino] = nuevo;	
-//            this.matrizAdyacencia[destino][origen] = nuevo;	
-//    }
-//
-//    
-//    public void eliminarVertice(int v) {
-//
-//        Vertice nuevo = null;
-//        this.nodosUsados[v] = nuevo;        
-//                
-//        this.size--;
-//
-//        //Elimino las aristas donde v es miembro
-//        for(int i = 1; i <= this.cantNodos; i++){
-//                this.matrizAdyacencia[i][v] = new Tramos();
-//                this.matrizAdyacencia[v][i] = new Tramos();
-//            }
-//    }
-//    
-    
     public boolean esVacio() {
             return this.size == 0;
     }
@@ -145,17 +116,6 @@ public class Grafo
     public boolean estaLleno() {
         return size == cantNodos;
     }
-    
-    
-//    public boolean sonAdyacentes(int a, int b) {
-//            return this.matrizAdyacencia[a][b].isExiste();
-//    }
-//
-//    
-//    public boolean estaVertice(int v) {
-//        return this.nodosUsados[v].getExisteNodo();
-//    }
-
     
     public boolean existePalabra(String pal) {
         
@@ -172,8 +132,7 @@ public class Grafo
         }
         
         return encontro;                    
-    }
-    
+    }  
 
     public int indiceDePalabra(String pal) {
         
@@ -195,9 +154,6 @@ public class Grafo
         return indice;                    
     }
     
-    
-   
-    
     public Vertice getVertice(String palab) {
         Vertice ret = null;
         boolean encontro = false;
@@ -217,158 +173,81 @@ public class Grafo
         return ret;        
     }
 
-    
-    
-    // Pre: existeVertice(pal)
-    public String BFS(String palIni, String palFin) 
+   public String BusquedaBFS(String palIni, String palFin)
     {
         String ret = "";
-        boolean[] vis = new boolean[cantNodos];
-        // Inicializo el vector en false
-        for(int i = 0; i < vis.length; vis[i++] = false); 
-
-        int sig = indiceDePalabra(palIni);
-        int fin = indiceDePalabra(palFin);
-
-        do{
-            ret += BFSRec(sig, vis, fin); 
-            sig = -1;
-            int i = 0;
-            while(!vis[fin] && i < vis.length)
-            {
-                 if(!vis[i])
-                    {
-                        sig = i;
-                        break;
-                    }         
-                i++;
-            }
-        } while(sig != -1);
-
-        return ret;
-    }
-
-
-    private String BFSRec(int vec, boolean[] vis, int fin) 
-    {
-            String ret = "";
-            Cola<Integer> q = new Cola<Integer>();
-            q.encolar(vec);
-            while(!q.esVacia())
-            {
-                    int prox = q.desencolar();
-                    vis[prox] = true;
-                    ret += nodosUsados[prox].getPalabra().getPalabra() + " ";
-                    for (int i = 0; i < matrizAdyacencia.length; i++) {
-                            if(matrizAdyacencia[prox][i].isExiste() && !vis[i])
-                            {
-                                q.encolar(i);
-                            }
-                    }
-            }
-            
-            return ret;
-    }
-    
-    public String BusquedaBFS(String palIni, String palFin)
-    {
-        String ret = "";
+        int prev[] = new int[cantNodos];
+        int actual = 0;
 
         //Obtengo los indices de las palabras en el vector de vertices
-        int sig = indiceDePalabra(palIni);
+        int ini = indiceDePalabra(palIni);
         int fin = indiceDePalabra(palFin);
         
 
         boolean[] vis = new boolean[cantNodos];
         // Inicializo el vector en false
         for(int i = 0; i < vis.length; vis[i++] = false); 
-
+        prev[ini] = -1;
+        
         //Marco el inicio como visitado
-        vis[sig] = true;
+        vis[ini] = true;
         
         Cola<Integer> q = new Cola<Integer>();
-        q.encolar(sig);
+        q.encolar(ini);
    
 
-        while (!q.esVacia() && !vis[fin])
+        while (!q.esVacia())
         {
-            sig = q.desencolar();
-            ret += nodosUsados[sig].getPalabra().getPalabra() + " ";
+            actual = q.desencolar();
+            if(actual == fin)
+            	break;
 
-            for (int i = 0; i < matrizAdyacencia.length; i++) 
-            {
-                while(matrizAdyacencia[sig][i].isExiste() && !vis[i] && !vis[fin])
-                {
+            
+            for( int i = 0 ; i < matrizAdyacencia.length ; i++ )
+            {	
+            	//Adyacentes a nodo actual
+                Tramos v = matrizAdyacencia[actual][i];
+                if( v.isExiste() && !vis[ i ] )
+                {				
+                	//Si es no visitado, lo agregamos a la cola
+                    //System.out.println( actual +" -> "+ i); //Ir viendo el recorrido del BFS
+                    prev[i] = actual;//vamos guardando el recorrido
                     vis[i] = true;
                     q.encolar(i);
                 }
             }
         }
+
         
-        //Si visité el vector de fin, lo agrego al retorno, de lo contrario devuelvo vacío
-        if(vis[fin])
-            ret += palFin;
-        else
-            ret = "";
+        int posActual = fin;
+        int lleguePor = -1;
+        boolean termino = false;
+        String textoInvert = "";
+        while(!termino) 
+        {   
+            lleguePor = prev[posActual];
+            if(posActual == fin)
+                textoInvert += nodosUsados[posActual].getPalabra().getPalabra();
+            else
+                textoInvert += " " + nodosUsados[posActual].getPalabra().getPalabra();
+            posActual = lleguePor;
+          
+            if(posActual == -1)
+                termino = true;
+        }
         
+
+        String[] palab = textoInvert.split("\\b[ \\s]+");
+
+        for(int i = (palab.length - 1); i >= 0; i--)
+        {
+            if (i == 0)
+                ret += palab[i];
+            else
+                ret += palab[i] + " ";
+        }
+                    
         return ret;
     }
-    
-//    
-//    public String BusqBFS(String palIni, String palFin)
-//    {
-//        String ret = "";
-//
-//        int ini = indiceDePalabra(palIni);
-//        int fin = indiceDePalabra(palFin);
-//        int orden = 0;
-//
-//        boolean[] vis = new boolean[cantNodos];
-//        // Inicializo el vector en false
-//        for(int i = 0; i < vis.length; vis[i++] = false); 
-//
-//        //Marco el inicio como visitado
-//        vis[fin] = true;
-//        ret += nodosUsados[fin].getPalabra().getPalabra() + " ";
-//        Lista2 ordenFin = matrizAdyacencia[ini][fin].getOrden();
-//        boolean encontro = false;
-//        int j = 0;
-//        int elem = ordenFin.getInicio().getDato();
-//        
-//        //Busco en incidentes
-//        while (!vis[ini])
-//        {
-//            for (int i = 0; i < matrizAdyacencia.length; i++) 
-//            {
-//                //Recorro incidentes para sacar los que llegaron a el
-//                if(matrizAdyacencia[i][fin].isExiste() && !vis[i])
-//                {
-//                    while (!encontro && j < matrizAdyacencia.length )
-//                    {
-//                        Lista2 listaAAnalizar = matrizAdyacencia[i][fin].getOrden();
-//                        NodoLista2 elemAAnalizar = listaAAnalizar.getInicio();
-//                        while(!encontro && elemAAnalizar != null)
-//                        {
-//                            if(elemAAnalizar.getDato() < elem && elem - elemAAnalizar.getDato() == 1)
-//                            {
-//                                encontro = true;
-//                                orden = elemAAnalizar.getDato();
-//                                ret += nodosUsados[ini].getPalabra().getPalabra() + " ";
-//                            }
-//                            elemAAnalizar = elemAAnalizar.getSig();
-//                        }
-//                    }
-//                    
-//                    
-//                    ret += nodosUsados[ini].getPalabra().getPalabra() + " ";
-//                    vis[i] = true;
-//                    
-//                }
-//            }
-//        }
-//        
-//        ret += nodosUsados[ini].getPalabra().getPalabra() + " ";
-//        
-//        return ret;
-//    }
+   
 }

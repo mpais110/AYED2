@@ -5,13 +5,10 @@ import Dominio.Palabra;
 
 
 public class Vertice {
-
    
     private boolean existeNodo; 
     private Palabra palabra;
 
-    
-    
     public Vertice(boolean existeNodo, Palabra elem) {
         this.existeNodo = existeNodo;
         this.palabra = elem;
@@ -21,8 +18,7 @@ public class Vertice {
         this.existeNodo = false;
         this.palabra = null;
     }
-
-           
+         
     public boolean getExisteNodo() {
         return existeNodo;
     }
@@ -31,8 +27,6 @@ public class Vertice {
         this.existeNodo = existeNodo;
     }
     
-    
-
     public Palabra getPalabra() {
         return palabra;
     }

@@ -36,8 +36,4 @@ public class NodoListaHash {
 		return this.dato.toString();
 	}
 	
-	
-	
-	
-	
 }

@@ -39,6 +39,5 @@ public class NodoListaPalabra{
     public void setPalabra(Palabra palabra) {
         this.palabra = palabra;
     }
-    
-    
+     
 }

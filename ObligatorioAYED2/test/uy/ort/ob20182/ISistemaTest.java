@@ -40,7 +40,7 @@ public class ISistemaTest {
 		String texto;
 		texto = "";
 		assertEquals(Resultado.ERROR_1, sis.analizarTexto(texto).resultado);
-		texto = "hola hola.hola,hola:hola(hola)holaï¿½hola!holaï¿½hola?hola";			
+		texto = "hola hola.hola,hola:hola(hola)hola¡hola!hola¿hola?hola";			
 		assertEquals(Resultado.OK, sis.analizarTexto(texto).resultado);
 		
 	}
@@ -51,7 +51,7 @@ public class ISistemaTest {
 		
 		sis.inicializarSistema(20);
 		
-		texto = "aaa!ccc aaa ccc.aaa,ggg:ccc!ccc(ddd)eeeï¿½eee!eeeï¿½eee?fff fff fff eee eee fff fff bbb ggg";			
+		texto = "aaa!ccc aaa ccc.aaa,ggg:ccc!ccc(ddd)eee¡eee!eee¿eee?fff fff fff eee eee fff fff bbb ggg";			
 		sis.analizarTexto(texto);
 		assertEquals(Resultado.ERROR_1, sis.aparicionesPalabra("hhh").resultado);
 		assertEquals(Resultado.ERROR_1, sis.aparicionesPalabra("ff").resultado);
@@ -107,14 +107,12 @@ public class ISistemaTest {
 		res = sis.repetirFrase("madre","abuela");
 		assertEquals(Resultado.OK, res.resultado);
 		assertEquals("madre de la abuela",res.valorString);
+
 		
 		res = sis.repetirFrase("madre","menchu");
 		assertEquals(Resultado.OK, res.resultado);
-		//assertTrue(res.valorString.equals("madre de la abuela de rigoberta menchu") || res.valorString.equals("madre de rigoberta menchu"));
-		System.out.println("madre de la abuela de rigoberta menchu o madre de rigoberta menchu");
-                System.out.println("Resultado obtenido: " + res.valorString);
-                System.out.println("______________________________________________________________________________");
-	}
+		assertTrue(res.valorString.equals("madre de la abuela de rigoberta menchu") || res.valorString.equals("madre de rigoberta menchu"));
 
+	}
 
 }

@@ -19,7 +19,7 @@ public class Sistema implements ISistema
         this.palabras = palabras;
     }
 
-    //PRE CONDICIONES: Se recibe la cantidad mÃ¡xima de palabras a almacenar (maxPalabras). maxPalabras debe ser un entero.
+    //PRE CONDICIONES: Se recibe la cantidad máxima de palabras a almacenar (maxPalabras). maxPalabras debe ser un entero.
     //POS CONDICIONES: Retorna ERROR_1 si maxPalabras <= 0, u OK si maxPalabras > 0 y se crearon las estructuras correspondientes.  
     @Override
     public Retorno inicializarSistema (int maxPalabras) 
@@ -71,7 +71,8 @@ public class Sistema implements ISistema
         return ret;
     }
     
-
+    //PRE CONDICIONES: Se recibe una cadena de caracteres.
+    //POS CONDICIONES: Retorna ERROR_1 si el texto es vacío, ERROR_2 si el texto tiene más de maxPalabras diferentes, u OK si se pudo analizar el texto y grabarlo en las estructuras correspondientes.  
     @Override
     public Retorno analizarTexto(String texto) 
     {
@@ -93,7 +94,7 @@ public class Sistema implements ISistema
         {           
             //Paso a minusculas y separo en palabras
             texto = texto.toLowerCase();
-            String[] palab = texto.split("\\b[.:,ï¿½!?ï¿½() \\s]+");
+            String[] palab = texto.split("\\b[.:,¡¿!?() \\s]+");
 
             for(int i=0; i < palab.length; i++)
             {
@@ -152,9 +153,7 @@ public class Sistema implements ISistema
                 }
                 
                 ordenAparicion++;
-                
-
-                
+                          
             }
             ret.resultado = Resultado.OK;
             ret.valorString = "OK"; 
@@ -162,6 +161,8 @@ public class Sistema implements ISistema
         return ret;   
     }
 
+    //PRE CONDICIONES: Se recibe una cadena de caracteres.
+    //POS CONDICIONES: Retorna ERROR_1 si no encontró la palabra en el texto, u OK si la encontró y se devuelven la cantidad de repeticiones.  
     @Override
     public Retorno aparicionesPalabra(String palabra) {
         Retorno ret = new Retorno();
@@ -191,7 +192,9 @@ public class Sistema implements ISistema
       
         return ret;
     }
-
+    
+    //PRE CONDICIONES: Se recibe una cadena de caracteres.
+    //POS CONDICIONES: Retorna ERROR_1 si no encontró la palabra en el texto, u OK si las tres palabras siguientes posibles.  
     @Override
     public Retorno predecirPalabra(String palabra) {
         
@@ -221,7 +224,9 @@ public class Sistema implements ISistema
 
         return ret;
     }
-
+    
+    //PRE CONDICIONES: Se reciben dos cadenas de caracteres (palabras).
+    //POS CONDICIONES: Retorna ERROR_1 si no encontró al menos una de las palabras en el texto, ERROR_2 si no hay frase entre esas dos palabras, u OK y el texto de menos palabras entre la de inicio y fin
     @Override
     public Retorno repetirFrase(String palabraIni, String palabraFin) 
     {
@@ -241,19 +246,31 @@ public class Sistema implements ISistema
             ret.valorString = "ERROR_1";
         }
         else  
-        {
-            String retorno = palabras.BusquedaBFS(palabraIni, palabraFin);
-            
-            if(retorno.equals(""))
+        { 
+            int posicVVIni = palabras.indiceDePalabra(palabraIni);
+            int posicVVFin = palabras.indiceDePalabra(palabraFin);
+        	
+            if(posicVVIni > posicVVFin)
             {
-                ret.resultado = Resultado.ERROR_2;
+            	ret.resultado = Resultado.ERROR_2;
                 ret.valorString = "ERROR_2";
             }
             else
             {
-                ret.resultado = Resultado.OK;
-                ret.valorString = retorno;
-            }          
+                String retorno = palabras.BusquedaBFS(palabraIni, palabraFin);
+
+                if(retorno.equals(""))
+                {
+                    ret.resultado = Resultado.ERROR_2;
+                    ret.valorString = "ERROR_2";
+                }
+                else
+                {
+                    ret.resultado = Resultado.OK;
+                    ret.valorString = retorno;
+                }  
+            }
+        	        
         } 
             
         return ret;

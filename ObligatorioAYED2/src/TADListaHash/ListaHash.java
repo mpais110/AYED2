@@ -6,59 +6,33 @@ import TADGrafoPalabras.VerticeHash;
 public class ListaHash {
     private NodoListaHash inicio;
     int tamano;
-    
-
+   
     //Constructor
     public ListaHash()
     {
         inicio = null;
         tamano = 0;
     }
-    
-    
+        
     public NodoListaHash getInicio() {
         return inicio;
     }
-
-    
+ 
     public void insertar(VerticeHash dato)
     {
         NodoListaHash nuevo = new NodoListaHash(dato, inicio);
         inicio = nuevo;
     }
     
-    
-//    public void insertaInicioChofer(Object obj)
-//    {
-//        if (inicio == null)
-//        {
-//            inicio = new NodoLista(obj);
-//        }
-//        else
-//        {
-//            NodoLista aux = inicio;
-//            NodoLista nuevo = new NodoLista(obj);
-//            nuevo.setSig(aux);
-//            inicio = nuevo;
-//        }
-//        tamano++;
-//    }
-    
-    
-   
     public int tamano() 
     {
         return tamano;
     }
     
-    
- 
-    
     public boolean estaVacia()
     {
         return (inicio == null);
     }
-    
     
     public void eliminarPrimero()
     {
@@ -66,13 +40,10 @@ public class ListaHash {
         tamano--;
     }
     
-
     public void vaciarLista() {
         this.inicio = null;
         this.tamano = 0;
     }
-    
-    
     
     public void eliminarEnIndice(int ind)
     {
@@ -93,8 +64,7 @@ public class ListaHash {
         }
         tamano--;
     }
-    
-    
+      
     public NodoListaHash obtenerElemento(String palab){
         NodoListaHash aux = this.inicio;
         while (aux != null && !aux.getDato().getPalabra().equals(palab))
@@ -102,6 +72,5 @@ public class ListaHash {
         //encontré dato o llegué al final
         return aux;
     }
+    
 }
-
-

@@ -10,33 +10,30 @@ public class Hash {
 	private int cantMax;
         
 
-        public ListaHash[] getArr() {
-            return arr;
-        }
+    public ListaHash[] getArr() {
+        return arr;
+    }
 
-        public void setArr(ListaHash[] arr) {
-            this.arr = arr;
-        }
+    public void setArr(ListaHash[] arr) {
+        this.arr = arr;
+    }
 
-        public int getTope() {
-            return tope;
-        }
+    public int getTope() {
+        return tope;
+    }
 
-        public void setTope(int tope) {
-            this.tope = tope;
-        }
+    public void setTope(int tope) {
+        this.tope = tope;
+    }
 
-        public int getCantMax() {
-            return cantMax;
-        }
+    public int getCantMax() {
+        return cantMax;
+    }
 
-        public void setCantMax(int cantMax) {
-            this.cantMax = cantMax;
-        }
-
-
-
-        
+    public void setCantMax(int cantMax) {
+        this.cantMax = cantMax;
+    }
+    
 	public Hash(int cantMax) {
 		
 		this.tope = primoSup(cantMax);
@@ -49,25 +46,21 @@ public class Hash {
 		this.cantMax = cantMax;
 		
 	}
-
+    
+    public int identifPalabra (String pal) {
+        //Calculo identificador de palabra. Dado que por ejemplo "hola" y "halo" tienen igual id, se utiliza hash abierto.
+        int idPalabra = 0;
+        for (int j = 0; j < pal.length(); j++) 
+            idPalabra += (int)pal.charAt(j);  
         
-        public int identifPalabra (String pal)
-        {
-            //Calculo identificador de palabra. Dado que por ejemplo "hola" y "halo" tienen igual id, se utiliza hash abierto.
-            int idPalabra = 0;
-            for (int j = 0; j < pal.length(); j++) 
-                idPalabra += (int)pal.charAt(j);  
-            
-            return idPalabra;
-        }
-                    
-                    
+        return idPalabra;
+    }    
+                
 	public void insertar(int clave, VerticeHash dato){
 		int posHash = fHash(clave);
 		arr[posHash].insertar(dato);
 	}
 	
-
 	public void insertar(String clave, VerticeHash dato){
 		int posHash = fHash(clave.hashCode());
 		arr[posHash].insertar(dato);

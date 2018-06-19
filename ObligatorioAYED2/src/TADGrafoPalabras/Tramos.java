@@ -33,15 +33,12 @@ public class Tramos
         this.orden = orden;
     }
     
-    
-
     public Tramos(int orden) {
         this.existe = true;
         this.peso = 1;
         this.orden = new Lista2();
         this.orden.agregarInicio(orden);
-    }
-    
+    }    
     
     public Tramos() 
     {
@@ -49,7 +46,5 @@ public class Tramos
         this.peso = 0;
         this.orden = new Lista2();
     }
-    
-    
     
 }
